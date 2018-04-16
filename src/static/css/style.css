@@ -1,0 +1,7 @@
+.image-upload svg {
+    cursor: pointer;
+}
+
+.image-upload > input {
+    display: none;
+}

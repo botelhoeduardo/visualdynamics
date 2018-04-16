@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
+<interface>
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkFileFilter" id="filefilter1">
+    <patterns>
+      <pattern>*.pdb</pattern>
+    </patterns>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name Tipo -->
+      <column type="gchararray"/>
+      <!-- column-name parametro -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">AMBER03 protein, nucleic AMBER94</col>
+        <col id="1" translatable="yes">amber03</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBER94 force field</col>
+        <col id="1" translatable="yes">amber94</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBER96 protein, nucleic AMBER94</col>
+        <col id="1" translatable="yes">amber96</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBER99 protein, nucleic AMBER94</col>
+        <col id="1" translatable="yes">amber99</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBER99SB protein, nucleic AMBER94</col>
+        <col id="1" translatable="yes">amber99sb</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBER99SB-ILDN protein, nucleic AMBER94</col>
+        <col id="1" translatable="yes">amber99sb-ildn</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">AMBERGS force field</col>
+        <col id="1" translatable="yes">amberGS</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 43a1 force field</col>
+        <col id="1" translatable="yes">charmm27</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">CHARMM27 all-atom force field</col>
+        <col id="1" translatable="yes">gromos43a1</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 43a2 force field</col>
+        <col id="1" translatable="yes">gromos43a2</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 45a3 force field</col>
+        <col id="1" translatable="yes">gromos45a3</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 53a5 force field</col>
+        <col id="1" translatable="yes">gromos53a5</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 53a6 force field</col>
+        <col id="1" translatable="yes">gromos53a6</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GROMOS96 54a7 force field</col>
+        <col id="1" translatable="yes">gromos54a7</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">OPLS-AA/L all-atom force</col>
+        <col id="1" translatable="yes">oplsaa</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name Tipo -->
+      <column type="gchararray"/>
+      <!-- column-name parametro -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">SPC    simple point charge (recomendado para GROMOS)</col>
+        <col id="1" translatable="yes">spc</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">SPC/E  extended simple point charge</col>
+        <col id="1" translatable="yes">spce</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">None</col>
+        <col id="1" translatable="yes">none</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">TIP3P (disponível para AMBER e OPLS apenas)</col>
+        <col id="1" translatable="yes">tip3p</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">TIP4P  (disponível para AMBER e OPLS apenas)</col>
+        <col id="1" translatable="yes">tip4p </col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">TIP5P  (disponível para AMBER e OPLS apenas)</col>
+        <col id="1" translatable="yes">tip5p </col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststore3">
+    <columns>
+      <!-- column-name Tipo -->
+      <column type="gchararray"/>
+      <!-- column-name parametro -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Triclinic</col>
+        <col id="1" translatable="yes">triclinic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">cubic</col>
+        <col id="1" translatable="yes">cubic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">dodecahedron</col>
+        <col id="1" translatable="yes">dodecahedron</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">octahedron</col>
+        <col id="1" translatable="yes">octahedron </col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkWindow" id="Aplicacao">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Dinâmica Molecular com Gromacs</property>
+    <property name="window_position">mouse</property>
+    <property name="gravity">north</property>
+    <child>
+      <object class="GtkGrid" id="grid1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="row_spacing">7</property>
+        <child>
+          <object class="GtkLabel" id="label2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
+            <property name="xpad">12</property>
+            <property name="label" translatable="yes">Selecione o Arquivo PDB</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="xpad">12</property>
+                <property name="label" translatable="yes">Selecione o Campo de Força</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="campo_forca">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">3</property>
+                <property name="margin_bottom">13</property>
+                <property name="model">liststore1</property>
+                <property name="active">12</property>
+                <property name="id_column">1</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="xpad">12</property>
+                <property name="label" translatable="yes">Selecione o modelo de Água</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="modelo_agua">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">3</property>
+                <property name="margin_bottom">17</property>
+                <property name="model">liststore2</property>
+                <property name="active">0</property>
+                <property name="id_column">1</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
+            <property name="xpad">12</property>
+            <property name="label" translatable="yes">Tipo de Caixa de Simulação</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="tipo_caixa">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">3</property>
+            <property name="model">liststore3</property>
+            <property name="active">1</property>
+            <property name="id_column">1</property>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext3"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">4</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid" id="grid4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label6">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xpad">12</property>
+                <property name="label" translatable="yes">Distância entre a proteína e a borda da caixa    </property>
+                <property name="wrap">True</property>
+                <property name="max_width_chars">25</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="distancia_caixa">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">10</property>
+                <property name="width_chars">3</property>
+                <property name="xalign">1</property>
+                <property name="shadow_type">etched-in</property>
+                <property name="progress_pulse_step">1</property>
+                <property name="input_purpose">number</property>
+                <property name="orientation">vertical</property>
+                <property name="adjustment">adjustment1</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+                <property name="value">1</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">   Å    </property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_neutralize">
+                <property name="label" translatable="yes">Neutralizar Sistema ?
+     (Adicionar Íons)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="margin_left">30</property>
+                <property name="margin_right">15</property>
+                <property name="xalign">0</property>
+                <property name="image_position">bottom</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">5</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid" id="grid5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFileChooserButton" id="selecao_arquivo">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <property name="margin_left">6</property>
+                <property name="create_folders">False</property>
+                <property name="filter">filefilter1</property>
+                <property name="local_only">False</property>
+                <property name="title" translatable="yes">Selecione um Arquivo PDB</property>
+                <property name="width_chars">55</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnExecuta">
+            <property name="label" translatable="yes">Executar</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="margin_bottom">6</property>
+            <property name="vexpand">False</property>
+            <property name="relief">half</property>
+            <property name="yalign">0.49000000953674316</property>
+            <signal name="clicked" handler="evento_executa" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">6</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

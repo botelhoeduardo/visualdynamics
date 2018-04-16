@@ -1,12 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Visual Dynamics</title>
 </head>
+
 <body>
-    
+    <h1 class="jumbotron text-center">Dinâmica Molecular com Gromacs</h1>
+
+    <form class="container">
+        <div class="form-group">
+            <div class="image-upload">
+                <label for="file">Selecione o Arquivo .pdb 
+                    <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                </label>
+                
+                <input type="file" name="file" id="file">
+            </div>
+
+            <label for="campoforca">Campo de Força</label>
+            <select class="form-control" name="campoforca" id="campoforca">
+                <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
+                <option value="amber94">AMBER94 force field</option>
+                <option value="amber96">AMBER96 protein, nucleic AMBER94</option>
+                <option value="amber99">AMBER99 protein, nucleic AMBER94</option>
+                <option value="amber99sb">AMBER99SB protein, nucleic AMBER94</option>
+                <option value="amber99sb-ildn">AMBER99SB-ILDN protein, nucleic AMBER94</option>
+                <option value="amberGS">AMBERGS force field</option>
+                <option value="charmm27">GROMOS96 43a1 force field</option>
+                <option value="gromos43a1">CHARMM27 all-atom force field</option>
+                <option value="gromos43a2">GROMOS96 43a2 force field</option>
+                <option value="gromos45a3">GROMOS96 45a3 force field</option>
+                <option value="gromos53a5">GROMOS96 53a5 force field</option>
+                <option value="gromos53a6">GROMOS96 53a6 force field</option>
+                <option value="gromos54a7">GROMOS96 54a7 force field</option>
+                <option value="oplsaa">OPLS-AA/L all-atom force</option>
+            </select>
+
+            <label for="modeloagua">Modelo Agua</label>
+            <select class="form-control" name="modeloagua" id="modeloagua">
+                <option value="spc">SPC simple point charge (recomendado para GROMOS)</option>
+                <option value="spce">SPC/E extended simple point charge</option>
+                <option value="none">None</option>
+                <option value="tip3p">TIP3P (disponível para AMBER e OPLS apenas)</option>
+                <option value="tip4p">TIP4P (disponível para AMBER e OPLS apenas)</option>
+                <option value="tip5p">TIP5P (disponível para AMBER e OPLS apenas)</option>
+            </select>
+
+            <label for="tipocaixa">Tipo Caixa</label>
+            <select class="form-control" name="tipocaixa" id="tipocaixa">
+                <option value="triclinic">Triclinic</option>
+                <option value="cubic">Cubic</option>
+                <option value="dodecahedron">Dodecahedron</option>
+                <option value="octahedron">Octahedron</option>
+            </select>
+
+            <label class="form-control-label" for="distanciacaixa">Distância entre a proteína e a borda da caixa</label>
+            <input class="form-control" type="number" name="distanciacaixa" id="distanciacaixa">
+            
+            <input class="form-check-input" type="checkbox" name="neutralize" id="neutralize">
+            <label class="form-check-label" for="neutralize">Neutralizar o Sistema?</label>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Executar" name="execute">
+    </form>
 </body>
+<script>
+    document.querySelector('.image-upload input').addEventListener("input", function(){
+        var filename = document.querySelector('#file').value;
+        var label = document.querySelector('.image-upload label');
+        label.innerHTML += filename;
+    });
+</script>
 </html>

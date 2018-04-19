@@ -89,6 +89,7 @@ ENV/
 pyvenv.cfg
 bin/
 lib64
+share
 
 # Spyder project settings
 .spyderproject

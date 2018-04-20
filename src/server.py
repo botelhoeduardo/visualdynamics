@@ -5,6 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     if request.method == 'POST':
+        #testing
         pass
     return render_template('index.html')
 

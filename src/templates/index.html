@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
-    <title>Visual Dynamics</title>
-</head>
-
-<body>
-    <h1 class="jumbotron text-center">Dinâmica Molecular com Gromacs</h1>
+{% block content %}
 
     <form class="container" method="POST" action="/">
         <div class="form-group">
@@ -68,12 +57,4 @@
         </div>
         <input type="submit" class="btn btn-primary" value="Executar" name="execute">
     </form>
-</body>
-<script>
-    document.querySelector('.image-upload input').addEventListener("input", function(){
-        var filename = document.querySelector('#file').value;
-        var label = document.querySelector('.image-upload label');
-        label.innerHTML += filename;
-    });
-</script>
-</html>
+{% endblock %}

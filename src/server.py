@@ -1,9 +1,38 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 import os
 
 app = Flask(__name__)
+app.secret_key = 'super secreto muhaha'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+users = {'a@a.com' : {'password' : 'secret'}}
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        if request.form.get('password') == users[email]['password']:
+            user = User()
+            user.id = email
+            login_user(user)
+            return redirect(url_for('protected'))
+
+        flash('Usuário e/ou Senha incorreto(s)')
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+@app.route('/protected')
+@login_required
+def protected():
+    flash('Olá {}, Login efetuado com sucesso!'.format(current_user.id))
+    return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     if request.method == 'POST':
         selecao_arquivo = request.form.get('file')
@@ -229,6 +258,39 @@ def index():
         comandos.close()
 
     return render_template('index.html')
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    flash('Por favor, faça Login')
+    return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@login_manager.user_loader
+def user_loader(email):
+    if email not in users:
+        return
+    user = User()
+    user.id = email
+    return user
+
+@login_manager.request_loader
+def request_loader(request):
+    email = request.form.get('email')
+    if email not in users:
+        return
+
+    user = User()
+    user.id = email
+
+    user.is_authenticated = request.form.get('password') == users[email]['password']
+    return user
+
+class User(UserMixin):
+    pass
 
 if __name__ == '__main__':
     app.run()

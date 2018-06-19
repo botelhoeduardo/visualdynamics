@@ -103,3 +103,6 @@ share
 
 # mypy
 .mypy_cache/
+
+# vscode
+.vscode

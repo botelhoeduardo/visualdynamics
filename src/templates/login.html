@@ -1,11 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
+
+{% with messages = get_flashed_messages() %} 
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %} 
+{% endwith %} 
 
 {% block content %}
-<form class="align-items-center container" action="/login" method="post">
-    <label for="email" class="form-control-label centered">Usuário</label>
-    <input class="form-control" name='email' id='email' type="email" aria-describedby="emailHelp" placeholder="Ex: davi12@hotmail.com">
-    <label for="password" class="form-control-label">Senha</label>
-    <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
-    <input type="submit" value="Login" name="submit">
-    </form>
+<div class="container">
+    <div class="row justify-content-center align-items-start">
+        <form class="align-items-center text-center" action="/login" method="post">
+            <label for="email" class="form-control-label text-center">Usuário</label>
+            <input class="form-control" name='email' id='email' type="email" aria-describedby="emailHelp" placeholder="Ex: davi12@hotmail.com">
+            <label for="password" class="form-control-label">Senha</label>
+            <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
+            <input type="submit" value="Login" name="submit">
+        </form>
+    </div>
+</div>
 {% endblock %}

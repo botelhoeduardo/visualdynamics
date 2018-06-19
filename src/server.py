@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
 app.secret_key = 'super secreto muhaha'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -291,6 +295,13 @@ def request_loader(request):
 
 class User(UserMixin):
     pass
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80), unique=True, nullable=False) 
+
+    def __repr__(self):
+        return '<User %r' % self.email
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

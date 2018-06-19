@@ -13,7 +13,7 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center align-items-start">
-        <form class="align-items-center text-center" action="/login" method="post">
+        <form class="align-items-center text-center" action="/login" method="post" onsubmit="return validateForm()">
             <label for="email" class="form-control-label text-center">Usuário</label>
             <input class="form-control" name='email' id='email' type="email" aria-describedby="emailHelp" placeholder="Ex: davi12@hotmail.com">
             <label for="password" class="form-control-label">Senha</label>
@@ -22,4 +22,19 @@
         </form>
     </div>
 </div>
+
+<script>
+    function validateForm() {
+        email = document.forms[0][0].value;
+        password = document.forms[0][1].value;
+        if (email==null || email=="") {
+            alert("Email deve ser preenchido");
+            return false;
+            }
+        if (password==null || password=="") {
+            alert("Senha deve ser preenchida");
+            return false;
+            }
+    };
+</script>
 {% endblock %}

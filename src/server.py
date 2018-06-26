@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -13,6 +13,12 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 users = {'a@a.com' : {'password' : 'secret'}}
+
+def generate_report():
+    format = request.args.get('format')
+with app.test_request_context(
+        '/make_report/2017', data={'format': 'short'}):
+    generate_report()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -257,11 +263,16 @@ def index():
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
         # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
 
-
-
         comandos.close()
+        if request.form.get('execute') == 'Baixar Lista de Comandos':
+            return redirect(url_for('commandsdownload', filename="comandos_executados.txt"))
 
     return render_template('index.html')
+
+@login_required
+@app.route('/download/<filename>')
+def commandsdownload(filename):
+    return send_file("/tmp/"+filename, as_attachment=True)
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
@@ -293,10 +304,7 @@ def request_loader(request):
     user.is_authenticated = request.form.get('password') == users[email]['password']
     return user
 
-class User(UserMixin):
-    pass
-
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True, nullable=False) 
 
@@ -304,4 +312,5 @@ class User(db.Model):
         return '<User %r' % self.email
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    #app.run(host='0.0.0.0')
+    app.run(debug=True)

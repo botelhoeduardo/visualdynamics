@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
-import os
+import os, errno
 
 app = Flask(__name__)
 app.secret_key = 'super secreto muhaha'
@@ -47,7 +47,13 @@ def index():
     if request.method == 'POST':
         selecao_arquivo = request.form.get('file')
         #pasta = os.path.dirname(selecao_arquivo)
-        pasta = '/tmp/'
+        pasta = '/tmp/' + current_user.id + '/'
+        try:
+            os.makedirs(pasta)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+            
         arquivo = os.path.basename(selecao_arquivo)
         (nome_arquivo, extensao) = arquivo.split('.')
 
@@ -272,7 +278,7 @@ def index():
 @login_required
 @app.route('/download/<filename>')
 def commandsdownload(filename):
-    return send_file("/tmp/"+filename, as_attachment=True)
+    return send_file("/tmp/"+ current_user.id + '/' +filename, as_attachment=True)
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

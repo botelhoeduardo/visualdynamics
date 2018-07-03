@@ -51,11 +51,12 @@
             </select>
 
             <label class="form-control-label" for="distanciacaixa">Distância entre a proteína e a borda da caixa</label>
-            <input class="form-control" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
-            
-            <input class="form-check-input mx-auto" type="checkbox" name="neutralize" id="neutralize">
-            <label class="form-check-label ml-4" for="neutralize">Neutralizar o Sistema?</label>
-       
+            <div class="input-group mb-3">
+                <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
+                
+                <input class="form-check-input mx-auto col-9" type="checkbox" name="neutralize" id="neutralize">
+                <label class="form-check-label ml-3 col-6" for="neutralize">Neutralizar o Sistema?</label>
+            </div>
         <input type="submit" class="btn btn-primary" value="Executar" name="execute">
         <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="execute">
     </form>

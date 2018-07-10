@@ -5,3 +5,13 @@
 .image-upload > input {
     display: none;
 }
+
+.ang-svg {
+    width: 100%;
+    background-image: url(/static/svg/angstrom.svg);
+    background-size: cover;
+    height: 0;
+    padding: 0; /* reset */
+    padding-bottom: 92%;
+    border: thin dotted darkgrey;
+}

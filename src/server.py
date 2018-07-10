@@ -41,7 +41,7 @@ def index():
     if request.method == 'POST':
         selecao_arquivo = request.form.get('file')
         #pasta = os.path.dirname(selecao_arquivo)
-        pasta = '/tmp/' + current_user.email + '/'
+        pasta = '/tmp/' + current_user.username + '/'
         try:
             os.makedirs(pasta)
         except OSError as e:

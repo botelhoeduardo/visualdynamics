@@ -24,16 +24,16 @@ def login():
         form_email = request.form.get('email')
         user_email = User.query.filter_by(email=form_email).first()
         if user_email is None or not user_email.check_password(request.form.get('password')):
-            flash('Email ou senha inválidos')
-            redirect(url_for('login'))    
-        login_user(user_email)
-        return redirect(url_for('protected'))
+            flash('Email ou senha inválidos', 'danger')
+        else :
+            login_user(user_email)
+            return redirect(url_for('protected'))
     return render_template('login.html')
 
 @app.route('/protected')
 @login_required
 def protected():
-    flash('Olá {}, Login efetuado com sucesso!'.format(current_user.id))
+    flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'success')
     return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
@@ -277,7 +277,7 @@ def commandsdownload(filename):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    flash('Por favor, faça Login')
+    flash('Por favor, faça Login', 'warning')
     return redirect(url_for('login'))
 
 @app.route('/logout')
@@ -305,5 +305,5 @@ class User(UserMixin, db.Model):
         return '<User %r' % self.username
 
 if __name__ == '__main__':
-    #app.run(host='0.0.0.0')
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
+    #app.run(debug=True)

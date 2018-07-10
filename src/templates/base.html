@@ -19,9 +19,20 @@
     </nav>
     <h1 class="jumbotron text-center">Dinâmica Molecular com Gromacs</h1>
 
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="alert alert-{{category}}" role="alert">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %} 
+{% endwith %} 
+
     {% block content %}
     {% endblock %}
     
-</body>
+<div class="text-muted text-center py-3 mt-5">Desenvolvido por: Eduardo Botelho e Fernando Zanchi</div>
 
+</body>
 </html>

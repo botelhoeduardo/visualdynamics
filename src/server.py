@@ -1,38 +1,33 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash, check_password_hash
 import os, errno
 
 app = Flask(__name__)
 app.secret_key = 'super secreto muhaha'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-users = {'a@a.com' : {'password' : 'secret'}}
-
-def generate_report():
-    format = request.args.get('format')
-with app.test_request_context(
-        '/make_report/2017', data={'format': 'short'}):
-    generate_report()
+#users = {'a@a.com' : {'password' : 'secret'}}
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
-        if request.form.get('password') == users[email]['password']:
-            user = User()
-            user.id = email
-            login_user(user)
-            return redirect(url_for('protected'))
-
-        flash('Usuário e/ou Senha incorreto(s)')
-        return redirect(url_for('login'))
-
+        form_email = request.form.get('email')
+        user_email = User.query.filter_by(email=form_email).first()
+        if user_email is None or not user_email.check_password(request.form.get('password')):
+            flash('Email ou senha inválidos')
+            redirect(url_for('login'))    
+        login_user(user_email)
+        return redirect(url_for('protected'))
     return render_template('login.html')
 
 @app.route('/protected')
@@ -47,7 +42,7 @@ def index():
     if request.method == 'POST':
         selecao_arquivo = request.form.get('file')
         #pasta = os.path.dirname(selecao_arquivo)
-        pasta = '/tmp/' + current_user.id + '/'
+        pasta = '/tmp/' + current_user.email + '/'
         try:
             os.makedirs(pasta)
         except OSError as e:
@@ -291,31 +286,23 @@ def logout():
     return redirect(url_for('login'))
 
 @login_manager.user_loader
-def user_loader(email):
-    if email not in users:
-        return
-    user = User()
-    user.id = email
-    return user
-
-@login_manager.request_loader
-def request_loader(request):
-    email = request.form.get('email')
-    if email not in users:
-        return
-
-    user = User()
-    user.id = email
-
-    user.is_authenticated = request.form.get('password') == users[email]['password']
-    return user
+def load_user(id):
+    return User.query.get(int(id))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(80), unique=True, nullable=False) 
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), unique=True, index=True) 
+    password_hash = db.Column(db.String(128))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User %r' % self.email
+        return '<User %r' % self.username
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0')

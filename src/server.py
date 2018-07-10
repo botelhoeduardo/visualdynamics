@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 import os, errno
 
 app = Flask(__name__)
@@ -16,17 +17,15 @@ migrate = Migrate(app, db)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-#users = {'a@a.com' : {'password' : 'secret'}}
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        form_email = request.form.get('email')
-        user_email = User.query.filter_by(email=form_email).first()
-        if user_email is None or not user_email.check_password(request.form.get('password')):
+        form_entry = request.form.get('username')
+        user = User.query.filter((User.username == form_entry) | (User.email == form_entry)).first()
+        if user is None or not user.check_password(request.form.get('password')):
             flash('Email ou senha inválidos', 'danger')
         else :
-            login_user(user_email)
+            login_user(user)
             return redirect(url_for('protected'))
     return render_template('login.html')
 
@@ -67,10 +66,11 @@ def index():
         arquivo_box = nome_arquivo + '_box'
         arquivo_ionizado = nome_arquivo + '_charged'
         
-        print('até aqui: selecao_arquivo:{}, pasta:{}, arquivo:{}, nome_arquivo:{}, extensao:{}, campo_forca:{}, modelo_agua:{}, tipo_caixa:{}, distancia_caixa:{}, neutralizar_sistema:{},arquivo_box:{}, arquivo_gro:{}, arquivo_top:{}, arquivo_ionizado:{}'.format(selecao_arquivo, pasta, arquivo, nome_arquivo, extensao, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, arquivo_box, arquivo_gro, arquivo_top, arquivo_ionizado))
+        # a@a.com/
+        CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(nome_arquivo, datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour, datetime.now().minute, datetime.now().second)
 
         # trabalhando parametros
-        comandos = open(pasta+"comandos_executados.txt", "w")
+        comandos = open(pasta + CompleteFileName, "w")
 
         #print("cd "+pasta)
         comandos.writelines("cd "+pasta+"\n\n\n\n")
@@ -266,7 +266,7 @@ def index():
 
         comandos.close()
         if request.form.get('execute') == 'Baixar Lista de Comandos':
-            return redirect(url_for('commandsdownload', filename="comandos_executados.txt"))
+            return redirect(url_for('commandsdownload', filename=CompleteFileName))
 
     return render_template('index.html')
 

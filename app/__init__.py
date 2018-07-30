@@ -4,12 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from app.config import Config
 
 app = Flask(__name__)
-app.secret_key = 'super secreto muhaha'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

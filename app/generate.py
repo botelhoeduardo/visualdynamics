@@ -30,7 +30,7 @@ def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_ca
     os.chdir(pasta)          ## Estgabelece o diretório de trabalho
 
     # Montagem do comando gmx pdb2gmx com parametros para geracao da topologia a partir da estrutura PDB selecionada, campos de forca e modelo de agua
-    gmx = '/usr/local/gromacs/bin/gmx'
+    gmx = '/usr/local/gromacs/bin/gmx_d'
     comando = 'pdb2gmx'
     parametro1 = '-f'
     parametro2 = arquivo

@@ -34,6 +34,7 @@ def index():
                                         request.form.get('tipocaixa'),
                                         request.form.get('distanciacaixa'),
                                         request.form.get('neutralize'),
+                                        request.form.get('double'),
                                         current_user
                                         )
             return redirect(url_for('commandsdownload', filename=CompleteFileName))

@@ -1,7 +1,7 @@
 import os, errno
 from datetime import datetime
 
-def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, current_user):
+def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, double, current_user):
     #pasta = os.path.dirname(selecao_arquivo)
     pasta = '/tmp/' + current_user.username + '/'
     try:
@@ -30,7 +30,7 @@ def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_ca
     os.chdir(pasta)          ## Estgabelece o diretório de trabalho
 
     # Montagem do comando gmx pdb2gmx com parametros para geracao da topologia a partir da estrutura PDB selecionada, campos de forca e modelo de agua
-    gmx = '/usr/local/gromacs/bin/gmx_d'
+    gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
     comando = 'pdb2gmx'
     parametro1 = '-f'
     parametro2 = arquivo

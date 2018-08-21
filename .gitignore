@@ -109,3 +109,6 @@ share
 
 #flask DB
 migrations/
+
+#myapp
+app/__pycache__/

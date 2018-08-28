@@ -1,9 +1,10 @@
 import os, errno
 from datetime import datetime
+from .config import Config
 
-def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, double, current_user):
+def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, double, ignore, current_user):
     #pasta = os.path.dirname(selecao_arquivo)
-    pasta = '/tmp/' + current_user.username + '/'
+    pasta = Config.UPLOAD_FOLDER + current_user.username + '/'
     try:
         os.makedirs(pasta)
     except OSError as e:
@@ -42,9 +43,11 @@ def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_ca
     parametro8 = campo_forca
     parametro9 = '-water'
     parametro10 = modelo_agua
-    parametro11 = '-ignh' #para ignorar hidrogenios
-    parametro12 = '-missing' #ignorar atomos faltando
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11 + ' ' + parametro12)
+    parametro11 = '-ignh -missing' #para ignorar hidrogenios e atomos faltando
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
+    + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' \
+    + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 + ' ' \
+    + (parametro11 if ignore else ''))
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     #r=subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8,parametro9, parametro10])

@@ -2,7 +2,7 @@ from app import app, login_manager
 from flask import render_template, request, redirect, url_for, flash, send_file
 from app.models import User
 from flask_login import logout_user, login_required, login_user, current_user
-from app.config import os
+from app.config import os, Config
 from app.generate import generate
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,15 +35,16 @@ def index():
                                         request.form.get('distanciacaixa'),
                                         request.form.get('neutralize'),
                                         request.form.get('double'),
+                                        request.form.get('ignore'),
                                         current_user
-                                        )
+                                        )            
             return redirect(url_for('commandsdownload', filename=CompleteFileName))
     return render_template('index.html')
 
 @login_required
-@app.route('/download/<filename>')
+@app.route('/download/<filename>/')
 def commandsdownload(filename):
-    return send_file("/tmp/{}/{}".format(current_user.username, filename), as_attachment=True)
+    return send_file('{}{}/{}'.format(Config.UPLOAD_FOLDER, current_user.username,filename), as_attachment=True)
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

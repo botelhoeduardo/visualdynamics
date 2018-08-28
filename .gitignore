@@ -111,4 +111,6 @@ share
 migrations/
 
 #myapp
-app/__pycache__/
+app/__pycache__/*
+__pycache__/*
+*.pyc

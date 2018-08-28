@@ -27,8 +27,7 @@ def protected():
 @login_required
 def index():
     if request.method == 'POST':
-        if request.form.get('execute') == 'Baixar Lista de Comandos':
-            CompleteFileName = generate(request.form.get('file'),
+        CompleteFileName = generate(request.form.get('file'),
                                         request.form.get('campoforca'),
                                         request.form.get('modeloagua'),
                                         request.form.get('tipocaixa'),
@@ -37,8 +36,11 @@ def index():
                                         request.form.get('double'),
                                         request.form.get('ignore'),
                                         current_user
-                                        )            
+                                        )  
+        if request.form.get('download') == 'Baixar Lista de Comandos':
             return redirect(url_for('commandsdownload', filename=CompleteFileName))
+        if request.form.get('execute') == 'Executar':
+            pass
     return render_template('index.html')
 
 @login_required

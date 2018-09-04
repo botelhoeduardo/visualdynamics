@@ -1,9 +1,11 @@
 from app import app, login_manager
 from flask import render_template, request, redirect, url_for, flash, send_file
-from app.models import User
+from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
-from app.config import os, Config
-from app.generate import generate
+from .config import os, Config
+from .generate import generate
+from .execute import execute
+from .upload_file import upload_file
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -28,25 +30,29 @@ def protected():
 def index():
     if request.method == 'POST':
         CompleteFileName = generate(request.form.get('file'),
-                                        request.form.get('campoforca'),
-                                        request.form.get('modeloagua'),
-                                        request.form.get('tipocaixa'),
-                                        request.form.get('distanciacaixa'),
-                                        request.form.get('neutralize'),
-                                        request.form.get('double'),
-                                        request.form.get('ignore'),
-                                        current_user
-                                        )  
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
         if request.form.get('download') == 'Baixar Lista de Comandos':
-            return redirect(url_for('commandsdownload', filename=CompleteFileName))
+            return redirect(url_for('commandsdownload',
+                    filename=CompleteFileName))
         if request.form.get('execute') == 'Executar':
-            pass
+            upload_file(request.form.get('file'))
+            execute('{}{}/{}'.format(Config.UPLOAD_FOLDER,
+                    current_user.username, CompleteFileName))
     return render_template('index.html')
 
 @login_required
 @app.route('/download/<filename>/')
 def commandsdownload(filename):
-    return send_file('{}{}/{}'.format(Config.UPLOAD_FOLDER, current_user.username,filename), as_attachment=True)
+    return send_file('{}{}/{}'.format(Config.UPLOAD_FOLDER,
+            current_user.username,filename), as_attachment=True)
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

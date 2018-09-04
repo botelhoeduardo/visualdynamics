@@ -2,7 +2,10 @@ import os, errno
 from datetime import datetime
 from .config import Config
 
-def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa, neutralizar_sistema, double, ignore, current_user):
+def generate(
+    selecao_arquivo, campo_forca, modelo_agua, tipo_caixa,
+    distancia_caixa, neutralizar_sistema, double, ignore,
+    current_user):
     #pasta = os.path.dirname(selecao_arquivo)
     pasta = Config.UPLOAD_FOLDER + current_user.username + '/'
     try:
@@ -20,8 +23,12 @@ def generate(selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_ca
     arquivo_ionizado = nome_arquivo + '_charged'
     
     # a@a.com/
-    CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(nome_arquivo, datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour, datetime.now().minute, datetime.now().second)
-
+    CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(
+            nome_arquivo, datetime.now().year, datetime.now().month,
+            datetime.now().day, datetime.now().hour,
+            datetime.now().minute, datetime.now().second
+            )
+    
     # trabalhando parametros
     comandos = open(pasta + CompleteFileName, "w")
 

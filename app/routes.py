@@ -43,12 +43,11 @@ def index():
             return redirect(url_for('commandsdownload',
                     filename=CompleteFileName))
         if request.form.get('execute') == 'Executar':
-            #1 - fazer upload do arquivo e armazenar em Config.PDB_FOLDER
             file = request.files.get('file')
             if upload_file(file, current_user.username):
-            #2 - executar o gromacs no servidor
-                execute('{}{}/{}'.format(Config.PDB_FOLDER,
-                        current_user.username, CompleteFileName))
+                AbsFileName = '{}{}/{}'.format(Config.PDB_FOLDER,
+                        current_user.username, CompleteFileName)
+                execute(AbsFileName)
             #3 - redirecionar para pagina de espera
             #na pagina deve ser possivel cancelar o processamento
             #deve ser adicionado a classe user se o mesma esta ou

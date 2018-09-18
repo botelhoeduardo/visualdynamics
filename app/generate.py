@@ -9,7 +9,7 @@ def generate(
     #pasta = os.path.dirname(selecao_arquivo)
     pasta = Config.UPLOAD_FOLDER + current_user.username + '/'
     try:
-        os.makedirs(pasta)
+        os.makedirs(pasta + 'PDBs/logs/') #criando todas as pastas
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise

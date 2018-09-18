@@ -7,5 +7,4 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.expanduser('~') + '/VDfiles/'
-    PDB_FOLDER = UPLOAD_FOLDER + 'PDBs/'
     ALLOWED_EXTENSIONS = {'pdb'}

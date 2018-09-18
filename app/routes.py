@@ -45,9 +45,9 @@ def index():
         if request.form.get('execute') == 'Executar':
             file = request.files.get('file')
             if upload_file(file, current_user.username):
-                AbsFileName = '{}{}/{}'.format(Config.PDB_FOLDER,
-                        current_user.username, CompleteFileName)
-                execute(AbsFileName)
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                        current_user.username, 'PDBs/logs/', file.filename)
+                execute(AbsFileName, CompleteFileName)
             #3 - redirecionar para pagina de espera
             #na pagina deve ser possivel cancelar o processamento
             #deve ser adicionado a classe user se o mesma esta ou

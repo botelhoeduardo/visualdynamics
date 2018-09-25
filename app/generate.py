@@ -33,7 +33,7 @@ def generate(
     comandos = open(pasta + CompleteFileName, "w")
 
     #print("cd "+pasta)
-    comandos.writelines("cd "+pasta+"\n\n\n\n")
+    #comandos.writelines("cd "+pasta+"\n\n\n\n")
 
     os.chdir(pasta)          ## Estgabelece o diretório de trabalho
 
@@ -53,8 +53,8 @@ def generate(
     parametro11 = '-ignh -missing' #para ignorar hidrogenios e atomos faltando
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
     + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' \
-    + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 + ' ' \
-    + (parametro11 if ignore else ''))
+    + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 \
+    + (' ' + parametro11 if ignore else ''))
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     #r=subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8,parametro9, parametro10])

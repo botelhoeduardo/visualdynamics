@@ -47,7 +47,7 @@ def index():
             if upload_file(file, current_user.username):
                 AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                         current_user.username, 'PDBs/logs/', file.filename)
-                execute(AbsFileName, CompleteFileName)
+                execute(AbsFileName, CompleteFileName, current_user.username)
             #3 - redirecionar para pagina de espera
             #na pagina deve ser possivel cancelar o processamento
             #deve ser adicionado a classe user se o mesma esta ou

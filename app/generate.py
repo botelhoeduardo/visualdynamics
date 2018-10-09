@@ -6,16 +6,17 @@ def generate(
     selecao_arquivo, campo_forca, modelo_agua, tipo_caixa,
     distancia_caixa, neutralizar_sistema, double, ignore,
     current_user):
+
+    arquivo = os.path.basename(selecao_arquivo)
+    (nome_arquivo, extensao) = arquivo.split('.')
+
     #pasta = os.path.dirname(selecao_arquivo)
-    pasta = Config.UPLOAD_FOLDER + current_user.username + '/'
+    pasta = Config.UPLOAD_FOLDER + current_user.username + '/' + nome_arquivo + '/'
     try:
-        os.makedirs(pasta + 'PDBs/logs/') #criando todas as pastas
+        os.makedirs(pasta + '/run/logs/') #criando todas as pastas
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-        
-    arquivo = os.path.basename(selecao_arquivo)
-    (nome_arquivo, extensao) = arquivo.split('.')
 
     arquivo_gro = nome_arquivo + '.gro'
     arquivo_top = nome_arquivo + '.top'

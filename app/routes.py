@@ -6,6 +6,7 @@ from .config import os, Config
 from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
+import ast
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -29,7 +30,8 @@ def protected():
 @login_required
 def index():
     if request.method == 'POST':
-        CompleteFileName = generate(request.files.get('file').filename,
+        file = request.files.get('file')
+        CompleteFileName = generate(file.filename,
                                     request.form.get('campoforca'),
                                     request.form.get('modeloagua'),
                                     request.form.get('tipocaixa'),
@@ -41,13 +43,16 @@ def index():
                                     )  
         if request.form.get('download') == 'Baixar Lista de Comandos':
             return redirect(url_for('commandsdownload',
-                    filename=CompleteFileName))
+                    filename={"complete" : CompleteFileName,
+                    "name": file.filename.split('.')[0]}))
         if request.form.get('execute') == 'Executar':
             file = request.files.get('file')
-            if upload_file(file, current_user.username):
+            moleculename = file.filename.split('.')[0]
+            if upload_file(file, current_user.username, moleculename):
                 AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                        current_user.username, 'PDBs/logs/', file.filename)
-                execute(AbsFileName, CompleteFileName, current_user.username)
+                        current_user.username, moleculename , 'run',
+                        'logs/', file.filename)
+                execute(AbsFileName, CompleteFileName, current_user.username, moleculename)
             #3 - redirecionar para pagina de espera
             #na pagina deve ser possivel cancelar o processamento
             #deve ser adicionado a classe user se o mesma esta ou
@@ -57,10 +62,11 @@ def index():
     return render_template('index.html')
 
 @login_required
-@app.route('/download/<filename>/')
+@app.route('/download/<filename>')
 def commandsdownload(filename):
-    return send_file('{}{}/{}'.format(Config.UPLOAD_FOLDER,
-            current_user.username,filename), as_attachment=True)
+    filename = ast.literal_eval(filename)
+    return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,
+            current_user.username,filename["name"],filename["complete"]), as_attachment=True)
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

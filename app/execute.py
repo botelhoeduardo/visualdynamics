@@ -16,6 +16,9 @@ def execute(LogFileName, CommandsFileName, username, filename):
     #tratar parametros para o formato do subprocess (lista de strs)
     command1 = lines[0].split(' ')
 
+    # ps -C gmx_d
+    #comando para verificar a execução
+
     #testando para 1 comando
     try:
         result = subprocess.check_output(command1).decode(sys.stdout.encoding)

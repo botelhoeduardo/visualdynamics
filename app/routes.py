@@ -53,10 +53,7 @@ def index():
                         current_user.username, moleculename , 'run',
                         'logs/', file.filename)
                 execute(AbsFileName, CompleteFileName, current_user.username, moleculename)
-            #3 - redirecionar para pagina de espera
-            #na pagina deve ser possivel cancelar o processamento
-            #deve ser adicionado a classe user se o mesma esta ou
-            #não com processo em andamento
+            #3 - mandar flash se servidor ocupado
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
     return render_template('index.html')

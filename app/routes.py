@@ -45,7 +45,10 @@ def index():
             return redirect(url_for('commandsdownload',
                     filename={"complete" : CompleteFileName,
                     "name": file.filename.split('.')[0]}))
-        if request.form.get('execute') == 'Executar':
+        if request.form.get('execute') and not \
+            os.path.exists(Config.UPLOAD_FOLDER+ 'executing') == 'Executar':
+
+            status_executing = open(Config.UPLOAD_FOLDER+'executing','x')
             file = request.files.get('file')
             moleculename = file.filename.split('.')[0]
             if upload_file(file, current_user.username, moleculename):
@@ -56,6 +59,7 @@ def index():
             #3 - mandar flash se servidor ocupado
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
+            os.remove(Config.UPLOAD_FOLDER+'executing')
     return render_template('index.html')
 
 @login_required

@@ -7,6 +7,7 @@ from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
 import ast
+import errno
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -45,10 +46,17 @@ def index():
             return redirect(url_for('commandsdownload',
                     filename={"complete" : CompleteFileName,
                     "name": file.filename.split('.')[0]}))
-        if request.form.get('execute') and not \
-            os.path.exists(Config.UPLOAD_FOLDER+ 'executing') == 'Executar':
-
-            status_executing = open(Config.UPLOAD_FOLDER+'executing','x')
+        if request.form.get('execute') == 'Executar':
+            #check if the server is running
+            try:
+                open(Config.UPLOAD_FOLDER+'executing','x')
+                #os.path.exists(Config.UPLOAD_FOLDER + 'executing')
+            except OSError as e:
+                if e.errno == errno.EEXIST:
+                    flash('O servidor está em execução', 'danger')
+                    return redirect(url_for('index'))
+            
+            #begins to run
             file = request.files.get('file')
             moleculename = file.filename.split('.')[0]
             if upload_file(file, current_user.username, moleculename):
@@ -56,7 +64,7 @@ def index():
                         current_user.username, moleculename , 'run',
                         'logs/', file.filename)
                 execute(AbsFileName, CompleteFileName, current_user.username, moleculename)
-            #3 - mandar flash se servidor ocupado
+            
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
             os.remove(Config.UPLOAD_FOLDER+'executing')

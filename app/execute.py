@@ -6,19 +6,21 @@ def execute(LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName) #cria o arquivo
 
     #abrir arquivo
-    with open(CommandsFileName) as f:
+    #with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
+    with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
         content = f.readlines()
-    lines = [line.rstrip('\n') for line in content]
+    lines = [line.rstrip('\n') for line in content if line is not '\n']
 
     #estabelecer o diretorio de trabalho
     os.chdir(Config.UPLOAD_FOLDER + username + '/' + filename + '/run/')
 
-    #tratar parametros para o formato do subprocess (lista de strs)
-    command1 = lines[0].split(' ')
-
+    #tratar parametros para o formato do subprocess (lista de strs) 
+    
     #testando para 1 comando
     try:
-        result = subprocess.check_output(command1).decode(sys.stdout.encoding)
+        for l in lines:
+            l = l.split(' ')
+            result = subprocess.check_output(l).decode(sys.stdout.encoding)
     except subprocess.CalledProcessError as e:
         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 

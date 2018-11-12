@@ -197,14 +197,72 @@ def generate(
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
 
-
-    # Montagem do comando gmx grompp para precompilar a dinamica de position restraints
-    # grompp -f PME_pr.mdp -c pfHGPRT_cg_em.gro -p pfHGPRT.top -o pfHGPRT_pr
+    #Montagem do comando gmx grompp para precompilar a primeira etapa do equilibrio
+    # grompp -f nvt.mdp -c MjTXII_cg_em.gro -r MjTXII_cg_em.gro -p MjTXII.top -o MjTXII_nvt.tpr
     comando = 'grompp'
     parametro1 = '-f'
-    parametro2 = 'PME_pr.mdp'
+    parametro2 = 'nvt.mdp'
     parametro3 = '-c'
     parametro4 = nome_arquivo + '_cg_em.gro'
+    parametro5 = '-r'
+    parametro6 = parametro4
+    parametro7 = '-p'
+    parametro8 = arquivo_top
+    parametro9 = '-o'
+    parametro10 = nome_arquivo + '_nvt.tpr'
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
+    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
+    comandos.write('\n\n')
+
+    #Montagem do comando gmx mdrun para executar a primeira etapa do equilibrio
+    # mdrun -v -s MjTXII_nvt.tpr -deffnm MjTXII_nvt
+    arquivo_nvt = nome_arquivo + '_nvt'
+    comando = 'mdrun'
+    parametro1 = '-v'
+    parametro2 = '-s'
+    parametro3 = arquivo_pr + '_nvt.tpr'
+    parametro4 = '-deffnm'
+    parametro5 = arquivo_nvt
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+
+
+    #Montagem do comando gmx grompp para precompilar a segunda etapa do equilibrio
+    # grompp -f npt.mdp -c MjTXII_nvt.gro -r MjTXII_nvt.gro -p MjTXII.top -o MjTXII_npt.tpr
+    comando = 'grompp'
+    parametro1 = '-f'
+    parametro2 = 'npt.mdp'
+    parametro3 = '-c'
+    parametro4 = nome_arquivo + '_nvt.gro'
+    parametro5 = '-r'
+    parametro6 = parametro4
+    parametro7 = '-p'
+    parametro8 = arquivo_top
+    parametro9 = '-o'
+    parametro10 = nome_arquivo + '_npt.tpr'
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
+    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
+    comandos.write('\n\n')
+
+    #Montagem do comando gmx mdrun para executar a segunda etapa do equilibrio
+    # mdrun -v -s MjTXII_npt.tpr -deffnm MjTXII_npt
+    arquivo_npt = nome_arquivo + '_nvt'
+    comando = 'mdrun'
+    parametro1 = '-v'
+    parametro2 = '-s'
+    parametro3 = arquivo_pr + '_npt.tpr'
+    parametro4 = '-deffnm'
+    parametro5 = arquivo_npt
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+
+    # Montagem do comando gmx grompp para precompilar a dinamica de position restraints VERSÃO 2
+    # grompp -f md_pr.mdp -c MjTXII_npt.gro -p MjTXII.top -o MjTXII_pr
+    comando = 'grompp'
+    parametro1 = '-f'
+    parametro2 = 'md_pr.mdp'
+    parametro3 = '-c'
+    parametro4 = nome_arquivo + '_npt.gro'
     parametro5 = '-p'
     parametro6 = arquivo_top
     parametro7 = '-o'
@@ -216,7 +274,7 @@ def generate(
 
 
     # Montagem do comando gmx mdrun para executar a dinamica de position restraints
-    # mdrun -v -s pfHGPRT_cg_em.tpr -deffnm pfHGPRT_cg_em
+    # mdrun -v -s MjTXII_pr.tpr -deffnm MjTXII_pr
     arquivo_pr = nome_arquivo + '_pr'
     comando = 'mdrun'
     parametro1 = '-v'

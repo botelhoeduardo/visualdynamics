@@ -13,10 +13,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
 
     #estabelecer o diretorio de trabalho
     os.chdir(Config.UPLOAD_FOLDER + username + '/' + filename + '/run/')
-
-    #tratar parametros para o formato do subprocess (lista de strs) 
     
-    #testando para 1 comando
     try:
         for l in lines:
             l = l.split(' ')

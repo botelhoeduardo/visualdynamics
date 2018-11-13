@@ -6,8 +6,8 @@ def execute(LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName) #cria o arquivo
 
     #abrir arquivo
-    #with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
-    with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
+    with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
+    #with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n']
 

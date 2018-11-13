@@ -220,7 +220,7 @@ def generate(
     comando = 'mdrun'
     parametro1 = '-v'
     parametro2 = '-s'
-    parametro3 = arquivo_pr + '_nvt.tpr'
+    parametro3 = arquivo_nvt + '.tpr'
     parametro4 = '-deffnm'
     parametro5 = arquivo_nvt
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
@@ -246,11 +246,11 @@ def generate(
 
     #Montagem do comando gmx mdrun para executar a segunda etapa do equilibrio
     # mdrun -v -s MjTXII_npt.tpr -deffnm MjTXII_npt
-    arquivo_npt = nome_arquivo + '_nvt'
+    arquivo_npt = nome_arquivo + '_npt'
     comando = 'mdrun'
     parametro1 = '-v'
     parametro2 = '-s'
-    parametro3 = arquivo_pr + '_npt.tpr'
+    parametro3 = arquivo_npt + '.tpr'
     parametro4 = '-deffnm'
     parametro5 = arquivo_npt
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)

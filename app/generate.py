@@ -113,6 +113,8 @@ def generate(
     if neutralizar_sistema: # se for True
     # Montagem do comando gmx genion para neutralizar o sistema
     # gmx genion -s pfOxoacyl_apo_charged.tpr -o pfOxoacyl_apo_charged -p pfOxoacyl_apo.top -neutral
+        resposta = 'printf \"SOL\"'
+        pipe = '|'
         comando = 'genion'
         parametro1 = '-s'
         parametro2 = arquivo_ionizado+'.tpr'
@@ -121,7 +123,7 @@ def generate(
         parametro5 = '-p'
         parametro6 = arquivo_top
         parametro7 = '-neutral'
-        comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6+ ' ' + parametro7)
+        comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6+ ' ' + parametro7)
         comandos.write('\n\n')
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6+ ' ' + parametro7)
         #x = subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6]) ### Esse comando foi substituido pelo abaixo

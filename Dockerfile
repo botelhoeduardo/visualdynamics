@@ -1,6 +1,6 @@
 FROM stackbrew/debian:jessie
 RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
+RUN apt-get install -y python-pip python-dev build-essential cmake wget openssh-server
 COPY . /visualdynamics
 WORKDIR /visualdynamics
 RUN python3 -m venv env/
@@ -14,5 +14,16 @@ RUN env/bin/pip install pip --upgrade
 # I make an arbitrary change to the code.
 COPY requirements.txt requirements.txt
 RUN env/bin/pip install -r requirements.txt
+#baixar e instalar gromacs
+RUN wget ftp://ftp.gromacs.org/pub/gromacs/gromacs-2018.3.tar.gz
+RUN tar zxvf gromacs-2018.3.tar.gz
+RUN cd gromacs-2018.3.tar.gz
+RUN mkdir build
+RUN cd build
+RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DGMX_DOUBLE=on
+RUN make
+RUN make install
+RUN cd ../..
+
 ENTRYPOINT ["python"]
 CMD ["visualdynamics.py"]

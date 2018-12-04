@@ -24,6 +24,8 @@ RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DGMX_DOUBLE=on
 RUN make
 RUN make install
 RUN cd ../..
-
-ENTRYPOINT ["python"]
-CMD ["visualdynamics.py"]
+#flask good practices
+RUN env/bin/export FLASK_ENV="production"
+RUN env/bin/flask run 
+EXPOSE 5000
+CMD ["flask", "run"]

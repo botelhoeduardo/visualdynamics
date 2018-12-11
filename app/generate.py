@@ -38,11 +38,6 @@ def generate(
 
     os.chdir(pasta)          ## Estgabelece o diretório de trabalho
 
-    #primeira linha, comando para deixar o gromacs em execução dentro do container
-    comando_source = "source /usr/local/gromacs/bin/GMXRC"
-    comandos.writelines(comando_source)
-    comandos.write('\n\n')
-
     # Montagem do comando gmx pdb2gmx com parametros para geracao da topologia a partir da estrutura PDB selecionada, campos de forca e modelo de agua
     gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
     comando = 'pdb2gmx'
@@ -98,7 +93,6 @@ def generate(
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
     #t=subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7])
 
-
     # Montagem do comando gmx grompp para precompilar e ver se o sistema esta carregado
     # grompp -f PME_em.mdp -c pfHGPRT_box.gro -p pfHGPRT.top -o pfHGPRT_charged
     comando = 'grompp'
@@ -118,8 +112,9 @@ def generate(
     if neutralizar_sistema: # se for True
     # Montagem do comando gmx genion para neutralizar o sistema
     # gmx genion -s pfOxoacyl_apo_charged.tpr -o pfOxoacyl_apo_charged -p pfOxoacyl_apo.top -neutral
-        resposta = 'printf \"SOL\"'
-        pipe = '|'
+        #resposta = 'printf \"SOL\"'
+        resposta = ''
+        pipe = ''
         comando = 'genion'
         parametro1 = '-s'
         parametro2 = arquivo_ionizado+'.tpr'

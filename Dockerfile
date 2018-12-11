@@ -4,9 +4,10 @@ RUN apt-get update -y && \
 #baixar e instalar gromacs
 RUN wget ftp://ftp.gromacs.org/pub/gromacs/gromacs-2018.3.tar.gz
 RUN tar -zxvf gromacs-2018.3.tar.gz
-RUN cd gromacs-2018.3.tar.gz
+RUN cd gromacs-2018.3
 RUN mkdir build
 RUN cd build
+WORKDIR /gromacs-2018.3/build
 RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DGMX_DOUBLE=on
 RUN make
 RUN make install

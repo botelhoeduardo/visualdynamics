@@ -38,6 +38,11 @@ def generate(
 
     os.chdir(pasta)          ## Estgabelece o diretório de trabalho
 
+    #primeira linha, comando para deixar o gromacs em execução dentro do container
+    comando_source = "source /usr/local/gromacs/bin/GMXRC"
+    comandos.writelines(comando_source)
+    comandos.write('\n\n')
+
     # Montagem do comando gmx pdb2gmx com parametros para geracao da topologia a partir da estrutura PDB selecionada, campos de forca e modelo de agua
     gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
     comando = 'pdb2gmx'

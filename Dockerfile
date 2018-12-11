@@ -1,9 +1,9 @@
-FROM stackbrew/debian:jessie
+FROM python:3.7.1
 RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev build-essential cmake wget openssh-server git
+    apt-get install -y build-essential cmake wget
 #baixar e instalar gromacs
 RUN wget ftp://ftp.gromacs.org/pub/gromacs/gromacs-2018.3.tar.gz
-RUN tar zxvf gromacs-2018.3.tar.gz
+RUN tar -zxvf gromacs-2018.3.tar.gz
 RUN cd gromacs-2018.3.tar.gz
 RUN mkdir build
 RUN cd build
@@ -12,10 +12,11 @@ RUN make
 RUN make install
 RUN cd ../..
 # preparando aplicacao
+RUN mkdir /visualdynamics
 COPY . /visualdynamics
 WORKDIR /visualdynamics
-RUN python3 -m venv env/
-RUN env/bin/pip install pip --upgrade
+# RUN python3 -m venv env/
+RUN pip install pip --upgrade
 # One important step that may seem out of place is that I copy in the Python requirements.txt 
 # file and install the Python requirements early on in the Dockerfile build process. 
 # Installing the Python requirements is a time-consuming process, and I can leverage Docker's 
@@ -23,10 +24,10 @@ RUN env/bin/pip install pip --upgrade
 # change is specifically made to the requirements file. If I were push that step further down 
 # in the Dockerfile, I'd risk unnecessarily re-installing the Python requirements every time 
 # I make an arbitrary change to the code.
-COPY requirements.txt requirements.txt
-RUN env/bin/pip install -r requirements.txt
+COPY ./requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 #flask good practices
-RUN env/bin/export FLASK_ENV="production"
+ENV FLASK_ENV="production"
 EXPOSE 5000
-CMD ["flask", "run"]
+CMD ["flask", "run", "--host=0.0.0.0"]

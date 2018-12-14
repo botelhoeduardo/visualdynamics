@@ -112,7 +112,7 @@ def generate(
     if neutralizar_sistema: # se for True
     # Montagem do comando gmx genion para neutralizar o sistema
     # gmx genion -s pfOxoacyl_apo_charged.tpr -o pfOxoacyl_apo_charged -p pfOxoacyl_apo.top -neutral
-        resposta = 'echo \"SOL\"'
+        resposta = 'echo "SOL"'
         pipe = '|'
         comando = 'genion'
         parametro1 = '-s'

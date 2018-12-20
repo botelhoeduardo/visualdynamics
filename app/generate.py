@@ -183,7 +183,7 @@ def generate(
         parametro1 = '-f'
         arquivo_edr = arquivo_minimizado + '.edr'
         parametro2 = '-o'
-        nome_grafico = 'potentitalsd'
+        nome_grafico = 'potentialsd'
         arquivo_xvg = nome_grafico + '.xvg'
         comandos.write('#energysd\n\n')
         comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
@@ -199,7 +199,7 @@ def generate(
         tipo_img = 'PNG'
         parametro3 = '-hardcopy'
         parametro4 = '-printfile'
-        nome_imagem = nome_grafico + '.' + tipo_img
+        nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
         comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg,
             parametro2, tipo_img, parametro3, parametro4, nome_imagem))
         comandos.write('\n\n')
@@ -257,7 +257,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = nome_grafico + '.' + tipo_img
+    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
@@ -314,7 +314,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = nome_grafico + '.' + tipo_img
+    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
@@ -371,7 +371,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = nome_grafico + '.' + tipo_img
+    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')

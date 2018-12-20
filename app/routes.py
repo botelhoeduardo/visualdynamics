@@ -8,6 +8,7 @@ from .execute import execute
 from .upload_file import upload_file
 import ast
 import errno
+import zipfile
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -67,8 +68,30 @@ def index():
             
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
-            os.remove(Config.UPLOAD_FOLDER+'executing')
+            os.remove(Config.UPLOAD_FOLDER+'executing')    
     return render_template('index.html')
+
+@login_required
+@app.route('/imgfiles')
+def imgsdownload():
+    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
+    SDImgFile = os.path.join(current_location, 'potentialsd.PNG')
+    CGImgFile = os.path.join(current_location, 'potentialcg.PNG')
+    NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
+    NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
+    ziplocation = os.path.join(current_location, 'imgs.zip')
+    zf = zipfile.ZipFile(ziplocation, mode='w')
+    imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
+    for i in imgs:
+        zipthefile(i,zf)
+    zf.close()
+    return (send_file(ziplocation, as_attachment=True))
+
+def zipthefile(name,zf):
+    try:
+        zf.write(name)
+    except:
+        pass
 
 @login_required
 @app.route('/download/<filename>')

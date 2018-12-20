@@ -52,6 +52,8 @@ def generate(
     parametro9 = '-water'
     parametro10 = modelo_agua
     parametro11 = '-ignh -missing' #para ignorar hidrogenios e atomos faltando
+
+    comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
     + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' \
     + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 \
@@ -72,7 +74,8 @@ def generate(
     parametro6 = '-bt'
     parametro7 = tipo_caixa
     parametro8 = '-o'
-    #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' +parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+    
+    comandos.write('#edit\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' +parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #s=subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8])
@@ -88,6 +91,8 @@ def generate(
     parametro5 =  arquivo_top
     parametro6 = '-o'
     parametro7 = arquivo_box
+
+    comandos.write('#solvate\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
@@ -104,6 +109,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 ='-o'
     parametro8 = arquivo_ionizado
+    comandos.write('#ions\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
@@ -150,6 +156,7 @@ def generate(
         parametro6 = arquivo_top
         parametro7 = '-o'
         parametro8 = arquivo_ionizado
+        comandos.write('#minisd\n\n')
         comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
         comandos.write('\n\n')
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
@@ -180,6 +187,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo+'_cg_em'
+    comandos.write('#minicg\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
@@ -212,6 +220,7 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_nvt.tpr'
+    comandos.write('#eqnvt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
     + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     comandos.write('\n\n')
@@ -242,6 +251,7 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_npt.tpr'
+    comandos.write('#eqnpt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
     + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     comandos.write('\n\n')
@@ -269,6 +279,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo + '_pr'
+    comandos.write('#prodmd\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)

@@ -30,9 +30,13 @@ def execute(LogFileName, CommandsFileName, username, filename):
     try:
         # lendo cada linha do arquivo texto
         for l in lines:
-            #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
-            #parametro stout=LogFile pra escrever log
-            result = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            #se for comentario ve qual imagem vai criar
+            if l[0] == '#':
+                pass
+            else:
+                #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
+                #parametro stout=LogFile pra escrever log
+                subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
     except subprocess.CalledProcessError as e:
         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 

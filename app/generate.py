@@ -162,19 +162,47 @@ def generate(
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
         # t=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7,parametro8])
 
-    # Montagem do comando gmx mdrun para executar a dinamica de minimizacao
-    # #mdrun -v -s pfHGPRT_charged.tpr -deffnm pfHGPRT_sd_em
-    arquivo_minimizado = nome_arquivo+'_sd_em'
-    comando = 'mdrun'
-    parametro1 = '-v'
-    parametro2 = '-s'
-    parametro3 =  arquivo_ionizado+'.tpr'
-    parametro4 = '-deffnm'
-    parametro5 = arquivo_minimizado
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
-    comandos.write('\n\n')
-    #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
-    # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
+        # Montagem do comando gmx mdrun para executar a dinamica de minimizacao
+        # #mdrun -v -s pfHGPRT_charged.tpr -deffnm pfHGPRT_sd_em
+        arquivo_minimizado = nome_arquivo+'_sd_em'
+        comando = 'mdrun'
+        parametro1 = '-v'
+        parametro2 = '-s'
+        parametro3 =  arquivo_ionizado+'.tpr'
+        parametro4 = '-deffnm'
+        parametro5 = arquivo_minimizado
+        comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
+        comandos.write('\n\n')
+        #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
+        # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
+
+        #Montagem do comando energySD para criar grafico Steepest Decent
+        #gmx energy -f em.edr -o potential.xvg
+        prompt = 'echo "10 0"'
+        comando = 'energy'
+        parametro1 = '-f'
+        arquivo_edr = arquivo_minimizado + '.edr'
+        parametro2 = '-o'
+        nome_grafico = 'potentitalsd'
+        arquivo_xvg = nome_grafico + '.xvg'
+        comandos.write('#energysd\n\n')
+        comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
+            arquivo_edr, parametro2, arquivo_xvg))
+        comandos.write('\n\n')
+
+        #Montagem do comando GRACE para converter gráfico SD em Imagem
+        #grace -nxy potentialsd.xvg -hdevice PNG -hardcopy -printfile potentialsd.png
+        comando = 'grace'
+        parametro1 = '-nxy'
+        #arquivo_xvg = arquivo_xvg
+        parametro2 = '-hdevice'
+        tipo_img = 'PNG'
+        parametro3 = '-hardcopy'
+        parametro4 = '-printfile'
+        nome_imagem = nome_grafico + '.' + tipo_img
+        comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg,
+            parametro2, tipo_img, parametro3, parametro4, nome_imagem))
+        comandos.write('\n\n')
 
     # Montagem do comando gmx grompp para precompilar a dinamica de minimizacao cg
     # grompp -f PME_cg_em.mdp -c pfHGPRT_sd_em.gro -p pfHGPRT.top -o pfHGPRT_cg_em
@@ -207,6 +235,33 @@ def generate(
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
 
+    #Montagem do comando energyCG para criar grafico CG
+    #gmx energy -f cg_em.edr -o potentialcg.xvg
+    prompt = 'echo "10 0"'
+    comando = 'energy'
+    parametro1 = '-f'
+    arquivo_edr = arquivo_minimizado_cg + '.edr'
+    parametro2 = '-o'
+    nome_grafico = 'potentialcg'
+    arquivo_xvg = nome_grafico + '.xvg'
+    comandos.write('#energycg\n\n')
+    comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx,comando,parametro1,arquivo_edr,parametro2,arquivo_xvg))
+    comandos.write('\n\n')
+
+    #Montagem do comando GRACE para converter gráfico CG em Imagem
+    #grace -nxy potentialsd.xvg -hdevice PNG -hardcopy -printfile potentialsd.png
+    comando = 'grace'
+    parametro1 = '-nxy'
+    #arquivo_xvg = arquivo_xvg
+    parametro2 = '-hdevice'
+    tipo_img = 'PNG'
+    parametro3 = '-hardcopy'
+    parametro4 = '-printfile'
+    nome_imagem = nome_grafico + '.' + tipo_img
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
+    tipo_img, parametro3, parametro4, nome_imagem))
+    comandos.write('\n\n')
+
     #Montagem do comando gmx grompp para precompilar a primeira etapa do equilibrio
     # grompp -f nvt.mdp -c MjTXII_cg_em.gro -r MjTXII_cg_em.gro -p MjTXII.top -o MjTXII_nvt.tpr
     comando = 'grompp'
@@ -237,6 +292,32 @@ def generate(
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
 
+    #Montagem do comando energy para criar do equilibrio nvt
+    prompt = 'echo "16 0"'
+    comando = 'energy'
+    parametro1 = '-f'
+    arquivo_edr = arquivo_nvt + '.edr'
+    parametro2 = '-o'
+    nome_grafico = 'temperature_nvt'
+    arquivo_xvg = nome_grafico + '.xvg'
+    comandos.write('#energynvt\n\n')
+    comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
+        arquivo_edr, parametro2, arquivo_xvg))
+    comandos.write('\n\n')
+
+    #Montagem do comando GRACE para converter gráfico NVT em Imagem
+    #grace -nxy temperature_nvt.xvg -hdevice PNG -hardcopy -printfile temperature_nvt.png
+    comando = 'grace'
+    parametro1 = '-nxy'
+    #arquivo_xvg = arquivo_xvg
+    parametro2 = '-hdevice'
+    tipo_img = 'PNG'
+    parametro3 = '-hardcopy'
+    parametro4 = '-printfile'
+    nome_imagem = nome_grafico + '.' + tipo_img
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
+    tipo_img, parametro3, parametro4, nome_imagem))
+    comandos.write('\n\n')
 
     #Montagem do comando gmx grompp para precompilar a segunda etapa do equilibrio
     # grompp -f npt.mdp -c MjTXII_nvt.gro -r MjTXII_nvt.gro -p MjTXII.top -o MjTXII_npt.tpr
@@ -266,6 +347,33 @@ def generate(
     parametro4 = '-deffnm'
     parametro5 = arquivo_npt
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+
+    #Montagem do comando energy para criar grafico do equilibrio npt
+    prompt = 'echo "16 0"'
+    comando = 'energy'
+    parametro1 = '-f'
+    arquivo_edr = arquivo_npt + '.edr'
+    parametro2 = '-o'
+    nome_grafico = 'temperature_npt'
+    arquivo_xvg = nome_grafico + '.xvg'
+    comandos.write('#energynpt\n\n')
+    comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
+        arquivo_edr, parametro2, arquivo_xvg))
+    comandos.write('\n\n')
+
+    #Montagem do comando GRACE para converter gráfico NPT em Imagem
+    #grace -nxy temperature_nvt.xvg -hdevice PNG -hardcopy -printfile temperature_nvt.png
+    comando = 'grace'
+    parametro1 = '-nxy'
+    #arquivo_xvg = arquivo_xvg
+    parametro2 = '-hdevice'
+    tipo_img = 'PNG'
+    parametro3 = '-hardcopy'
+    parametro4 = '-printfile'
+    nome_imagem = nome_grafico + '.' + tipo_img
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
+    tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
 
     # Montagem do comando gmx grompp para precompilar a dinamica de position restraints VERSÃO 2

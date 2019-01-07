@@ -25,7 +25,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
     os.chdir(RunFolder)
     
     #comando para rodar o gromacs (resolve o erro gmx em containers)
-    subprocess.Popen("source /usr/local/gromacs/bin/GMXRC", executable="/bin/bash", shell=True)
+    subprocess.run('/bin/bash -c source /usr/local/gromacs/bin/GMXRC', shell=True)
 
     try:
         # lendo cada linha do arquivo texto
@@ -36,7 +36,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
             else:
                 #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
                 #parametro stout=LogFile pra escrever log
-                subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+                subprocess.run(['/bin/bash', '-c', l], shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
     except subprocess.CalledProcessError as e:
         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 

@@ -8,3 +8,4 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.expanduser('~') + '/VDfiles/'
     ALLOWED_EXTENSIONS = {'pdb'}
+    SOURCE_COMMAND = 'source /usr/local/gromacs/bin/GMXRC'

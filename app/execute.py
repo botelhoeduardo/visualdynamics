@@ -7,11 +7,12 @@ def execute(LogFileName, CommandsFileName, username, filename):
 
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
+    SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(Config.MDP_LOCATION_FOLDER)
 
     for mdpfile in MDPList:
         #armazenar o nome completo do arquivo, seu caminho dentro sistema operacional
-        fullmdpname = os.path.join(Config.MDP_LOCATION_FOLDER, mdpfile)
+        fullmdpname = os.path.join(SecureMdpFolder, mdpfile)
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
 

@@ -30,6 +30,6 @@ COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 #flask good practices
-ENV FLASK_ENV="production"
+ENV FLASK_ENV="development"
 EXPOSE 5000
 CMD ["flask", "run", "--host=0.0.0.0"]

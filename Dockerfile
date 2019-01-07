@@ -12,7 +12,7 @@ RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DGMX_DOUBLE=on
 RUN make
 RUN make install
 RUN cd ../..
-RUN /bin/bash -c source /usr/local/gromacs/bin/GMXRC
+RUN /bin/bash -c "source /usr/local/gromacs/bin/GMXRC"
 # preparando aplicacao
 RUN mkdir /visualdynamics
 COPY . /visualdynamics

@@ -11,7 +11,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
 
     for mdpfile in MDPList:
         #armazenar o nome completo do arquivo, seu caminho dentro sistema operacional
-        fullmdpname = os.path.join(SecureMdpfilesFolder, mdpfile)
+        fullmdpname = os.path.join(Config.MDP_LOCATION_FOLDER, mdpfile)
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
 

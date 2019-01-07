@@ -7,8 +7,8 @@ def execute(LogFileName, CommandsFileName, username, filename):
 
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
-    SecureMdpfilesFolder = os.path.expanduser('~') + '/visualdynamics/mdpfiles'
-    MDPList = os.listdir(SecureMdpfilesFolder)
+    MDPList = os.listdir(Config.MDP_LOCATION_FOLDER)
+
     for mdpfile in MDPList:
         #armazenar o nome completo do arquivo, seu caminho dentro sistema operacional
         fullmdpname = os.path.join(SecureMdpfilesFolder, mdpfile)

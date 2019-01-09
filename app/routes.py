@@ -69,10 +69,16 @@ def index():
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
             os.remove(Config.UPLOAD_FOLDER+'executing')    
-    return render_template('index.html')
+    return render_template('index.html', actindex = 'active')
 
+
+@app.route('/ligante')
 @login_required
+def ligante():
+    return render_template('ligante.html', actlig = 'active')
+
 @app.route('/imgfiles')
+@login_required
 def imgsdownload():
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
     SDImgFile = os.path.join(current_location, 'potentialsd.PNG')
@@ -93,8 +99,8 @@ def zipthefile(name,zf):
     except:
         pass
 
-@login_required
 @app.route('/download/<filename>')
+@login_required
 def commandsdownload(filename):
     filename = ast.literal_eval(filename)
     return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,

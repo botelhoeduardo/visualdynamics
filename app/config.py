@@ -9,4 +9,4 @@ class Config(object):
     UPLOAD_FOLDER = os.path.expanduser('~') + '/VDfiles/'
     ALLOWED_EXTENSIONS = {'pdb'}
     SOURCE_COMMAND = '/bin/bash -c source /usr/local/gromacs/bin/GMXRC'
-    MDP_LOCATION_FOLDER = '/visualdynamics/mdpfiles'
+    MDP_LOCATION_FOLDER = 'visualdynamics/mdpfiles'

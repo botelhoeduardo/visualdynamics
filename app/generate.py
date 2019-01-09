@@ -92,7 +92,7 @@ def generate(
     parametro6 = '-o'
     parametro7 = arquivo_box
 
-    comandos.write('#solvate\n\n')
+    #comandos.write('#solvate\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
@@ -109,7 +109,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 ='-o'
     parametro8 = arquivo_ionizado
-    comandos.write('#ions\n\n')
+    #comandos.write('#ions\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
@@ -156,7 +156,7 @@ def generate(
         parametro6 = arquivo_top
         parametro7 = '-o'
         parametro8 = arquivo_ionizado
-        comandos.write('#minisd\n\n')
+        #comandos.write('#minisd\n\n')
         comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
         comandos.write('\n\n')
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
@@ -215,7 +215,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo+'_cg_em'
-    comandos.write('#minicg\n\n')
+    #comandos.write('#minicg\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
@@ -244,7 +244,7 @@ def generate(
     parametro2 = '-o'
     nome_grafico = 'potentialcg'
     arquivo_xvg = nome_grafico + '.xvg'
-    comandos.write('#energycg\n\n')
+    #comandos.write('#energycg\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx,comando,parametro1,arquivo_edr,parametro2,arquivo_xvg))
     comandos.write('\n\n')
 
@@ -275,7 +275,7 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_nvt.tpr'
-    comandos.write('#eqnvt\n\n')
+    #comandos.write('#eqnvt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
     + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     comandos.write('\n\n')
@@ -300,7 +300,7 @@ def generate(
     parametro2 = '-o'
     nome_grafico = 'temperature_nvt'
     arquivo_xvg = nome_grafico + '.xvg'
-    comandos.write('#energynvt\n\n')
+    #comandos.write('#energynvt\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
         arquivo_edr, parametro2, arquivo_xvg))
     comandos.write('\n\n')
@@ -332,7 +332,7 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_npt.tpr'
-    comandos.write('#eqnpt\n\n')
+    #comandos.write('#eqnpt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
     + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
     comandos.write('\n\n')
@@ -357,7 +357,7 @@ def generate(
     parametro2 = '-o'
     nome_grafico = 'temperature_npt'
     arquivo_xvg = nome_grafico + '.xvg'
-    comandos.write('#energynpt\n\n')
+    #comandos.write('#energynpt\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
         arquivo_edr, parametro2, arquivo_xvg))
     comandos.write('\n\n')
@@ -387,7 +387,7 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo + '_pr'
-    comandos.write('#prodmd\n\n')
+    #comandos.write('#prodmd\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)

@@ -25,9 +25,6 @@ def execute(LogFileName, CommandsFileName, username, filename):
     #estabelecer o diretorio de trabalho
     os.chdir(RunFolder)
     
-    #comando para rodar o gromacs (resolve o erro gmx em containers)
-    subprocess.run(Config.SOURCE_COMMAND, shell=True)
-
     try:
         # lendo cada linha do arquivo texto
         for l in lines:

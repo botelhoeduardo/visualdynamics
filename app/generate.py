@@ -53,7 +53,7 @@ def generate(
     parametro10 = modelo_agua
     parametro11 = '-ignh -missing' #para ignorar hidrogenios e atomos faltando
 
-    comandos.write('#topology\n\n')
+    #comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
     + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' \
     + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 \
@@ -75,7 +75,7 @@ def generate(
     parametro7 = tipo_caixa
     parametro8 = '-o'
     
-    comandos.write('#edit\n\n')
+    #comandos.write('#edit\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' +parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n')
     #s=subprocess.Popen([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8])
@@ -185,7 +185,7 @@ def generate(
         parametro2 = '-o'
         nome_grafico = 'potentialsd'
         arquivo_xvg = nome_grafico + '.xvg'
-        comandos.write('#energysd\n\n')
+        #comandos.write('#energysd\n\n')
         comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
             arquivo_edr, parametro2, arquivo_xvg))
         comandos.write('\n\n')

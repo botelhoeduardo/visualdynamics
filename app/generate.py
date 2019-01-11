@@ -183,7 +183,7 @@ def generate(
         parametro1 = '-f'
         arquivo_edr = arquivo_minimizado + '.edr'
         parametro2 = '-o'
-        nome_grafico = 'potentialsd'
+        nome_grafico = nome_arquivo+'_potentialsd'
         arquivo_xvg = nome_grafico + '.xvg'
         #comandos.write('#energysd\n\n')
         comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
@@ -242,7 +242,7 @@ def generate(
     parametro1 = '-f'
     arquivo_edr = arquivo_minimizado_cg + '.edr'
     parametro2 = '-o'
-    nome_grafico = 'potentialcg'
+    nome_grafico = nome_arquivo+'_potentialcg'
     arquivo_xvg = nome_grafico + '.xvg'
     #comandos.write('#energycg\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx,comando,parametro1,arquivo_edr,parametro2,arquivo_xvg))
@@ -298,7 +298,7 @@ def generate(
     parametro1 = '-f'
     arquivo_edr = arquivo_nvt + '.edr'
     parametro2 = '-o'
-    nome_grafico = 'temperature_nvt'
+    nome_grafico = nome_arquivo+'_temperature_nvt'
     arquivo_xvg = nome_grafico + '.xvg'
     #comandos.write('#energynvt\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,
@@ -355,7 +355,7 @@ def generate(
     parametro1 = '-f'
     arquivo_edr = arquivo_npt + '.edr'
     parametro2 = '-o'
-    nome_grafico = 'temperature_npt'
+    nome_grafico = nome_arquivo+'_temperature_npt'
     arquivo_xvg = nome_grafico + '.xvg'
     #comandos.write('#energynpt\n\n')
     comandos.writelines('{} | {} {} {} {} {} {}'.format(prompt, gmx, comando, parametro1,

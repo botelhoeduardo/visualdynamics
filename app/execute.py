@@ -22,19 +22,18 @@ def execute(LogFileName, CommandsFileName, username, filename):
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
 
-    #estabelecer o diretorio de trabalho
-    os.chdir(RunFolder)
+    
     
     try:
         # lendo cada linha do arquivo texto
         for l in lines:
+            #estabelecer o diretorio de trabalho
+            os.chdir(RunFolder)
+
             #se for comentario ve qual imagem vai criar
-            if l[0] == '#':
-                pass
-            else:
-                #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
-                #parametro stout=LogFile pra escrever log
-                subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
+            #parametro stout=LogFile pra escrever log
+            subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
     except subprocess.CalledProcessError as e:
         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 

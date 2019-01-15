@@ -89,7 +89,7 @@ def imgsdownload():
     zf = zipfile.ZipFile(ziplocation, mode='w')
     imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
     
-    for folder, files in os.walk(current_location):
+    for folder, subfolders, files in os.walk(current_location):
  
         for file in files:
             if file.endswith('.PNG'):

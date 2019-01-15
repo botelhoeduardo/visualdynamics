@@ -86,14 +86,15 @@ def imgsdownload():
     NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
     NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
     ziplocation = os.path.join(current_location, 'imgs.zip')
+    
     zf = zipfile.ZipFile(ziplocation, mode='w')
-    imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
+    #imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
     
     for files in os.walk(current_location):
  
         for file in files:
             if file.endswith('.PNG'):
-                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+                zf.write(ziplocation, file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
 

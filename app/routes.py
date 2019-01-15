@@ -8,7 +8,7 @@ from .execute import execute
 from .upload_file import upload_file
 import ast
 import errno
-import zipfile
+import zipfile, os
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

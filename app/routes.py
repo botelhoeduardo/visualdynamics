@@ -93,7 +93,7 @@ def imgsdownload():
  
         for file in files:
             if file.endswith('.PNG'):
-                zf.write(os.path.join(folder, file), file, current_location), compress_type = zipfile.ZIP_DEFLATED)
+                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
 

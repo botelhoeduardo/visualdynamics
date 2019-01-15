@@ -88,16 +88,25 @@ def imgsdownload():
     ziplocation = os.path.join(current_location, 'imgs.zip')
     zf = zipfile.ZipFile(ziplocation, mode='w')
     imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
-    for i in imgs:
-        zipthefile(i,zf)
+    
+    for folder, files in os.walk(current_location):
+ 
+        for file in files:
+            if file.endswith('.PNG'):
+                zf.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), current_location), compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
-    return (send_file(ziplocation, as_attachment=True))
 
-def zipthefile(name,zf):
-    try:
-        zf.write(name)
-    except:
-        pass
+
+    #for i in imgs:
+    #    zipthefile(i,zf)
+    #zf.close()
+    #return (send_file(ziplocation, as_attachment=True))
+
+#def zipthefile(name,zf):
+#    try:
+#        zf.write(name)
+#    except:
+#        pass
 
 @app.route('/download/<filename>')
 @login_required

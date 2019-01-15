@@ -8,7 +8,7 @@ from .execute import execute
 from .upload_file import upload_file
 import ast
 import errno
-import zipfile, os
+import zipfile
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -93,7 +93,7 @@ def imgsdownload():
  
         for file in files:
             if file.endswith('.PNG'):
-                zf.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), current_location), compress_type = zipfile.ZIP_DEFLATED)
+                zf.write(os.path.join(folder, file), file, current_location), compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
 

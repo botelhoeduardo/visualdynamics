@@ -90,10 +90,10 @@ def imgsdownload():
     #zf = zipfile.ZipFile(ziplocation, mode='w')
     #imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
     zf = zipfile.ZipFile('/home/bioinfo/VDfiles/admin/imagens.zip','w')
-    #for files in os.walk(current_location):
-    for files in os.walk('/home/bioinfo/VDfiles/admin'):
+
+    for folder, subfolders, files in os.walk('/home/bioinfo/VDfiles/admin'):
  
-        for folder, subfolders, files in files:
+        for file in files:
             if file.endswith('.PNG'):
                 zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
                 #zf.write(ziplocation, file, compress_type = zipfile.ZIP_DEFLATED)

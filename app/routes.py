@@ -104,7 +104,7 @@ def imgsdownload():
     #    zipthefile(i,zf)
     #zf.close()
     #return (send_file(ziplocation, as_attachment=True))
-    return (send_file('/home/bioinfo/VDfiles/admin/imagens.zip', as_attachment=True))
+    return (send_file(ziplocation, as_attachment=True))
 
 #def zipthefile(name,zf):
 #    try:

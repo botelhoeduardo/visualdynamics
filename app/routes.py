@@ -81,27 +81,29 @@ def ligante():
 @login_required
 def imgsdownload():
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
-    SDImgFile = os.path.join(current_location, 'potentialsd.PNG')
-    CGImgFile = os.path.join(current_location, 'potentialcg.PNG')
-    NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
-    NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
+    #SDImgFile = os.path.join(current_location, 'potentialsd.PNG')
+    #CGImgFile = os.path.join(current_location, 'potentialcg.PNG')
+    #NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
+    #NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
     ziplocation = os.path.join(current_location, 'imgs.zip')
     
-    zf = zipfile.ZipFile(ziplocation, mode='w')
+    #zf = zipfile.ZipFile(ziplocation, mode='w')
     #imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
-    
+    zf = zipfile.ZipFile('/home/bioinfo/VDfiles/admin/imagens.zip','w')
     for files in os.walk(current_location):
  
-        for file in files:
+        for folder, subfolders, files in files:
             if file.endswith('.PNG'):
-                zf.write(ziplocation, file, compress_type = zipfile.ZIP_DEFLATED)
+                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+                #zf.write(ziplocation, file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
 
     #for i in imgs:
     #    zipthefile(i,zf)
     #zf.close()
-    return (send_file(ziplocation, as_attachment=True))
+    #return (send_file(ziplocation, as_attachment=True))
+    return (send_file('/home/bioinfo/VDfiles/admin/imagens.zip', as_attachment=True))
 
 #def zipthefile(name,zf):
 #    try:

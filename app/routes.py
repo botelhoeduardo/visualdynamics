@@ -85,7 +85,7 @@ def imgsdownload():
     #CGImgFile = os.path.join(current_location, 'potentialcg.PNG')
     #NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
     #NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
-    #ziplocation = os.path.join(current_location, 'imgs.zip')
+    ziplocation = os.path.join(current_location, 'imagens.zip')
     
     #zf = zipfile.ZipFile(ziplocation, mode='w')
     #imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]

@@ -81,14 +81,8 @@ def ligante():
 @login_required
 def imgsdownload():
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
-    #SDImgFile = os.path.join(current_location, 'potentialsd.PNG')
-    #CGImgFile = os.path.join(current_location, 'potentialcg.PNG')
-    #NVTImgFile = os.path.join(current_location, 'temperature_nvt.PNG')
-    #NPTImgFile = os.path.join(current_location, 'temperature_npt.PNG')
     ziplocation = os.path.join(current_location, 'imagens.zip')
     
-    #zf = zipfile.ZipFile(ziplocation, mode='w')
-    #imgs = [SDImgFile, CGImgFile, NVTImgFile, NPTImgFile]
     zf = zipfile.ZipFile(ziplocation,'w')
 
     for folder, subfolders, files in os.walk(current_location):
@@ -96,21 +90,10 @@ def imgsdownload():
         for file in files:
             if file.endswith('.PNG'):
                 zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
-                #zf.write(ziplocation, file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
-
-    #for i in imgs:
-    #    zipthefile(i,zf)
-    #zf.close()
-    #return (send_file(ziplocation, as_attachment=True))
     return (send_file(ziplocation, as_attachment=True))
 
-#def zipthefile(name,zf):
-#    try:
-#        zf.write(name)
-#    except:
-#        pass
 
 @app.route('/download/<filename>')
 @login_required

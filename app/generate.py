@@ -400,13 +400,51 @@ def generate(
     comando = 'mdrun'
     parametro1 = '-v'
     parametro2 = '-s'
-    parametro3 = arquivo_pr + '.tpr'
+    arquivo_tpr = arquivo_pr + '.tpr'
+    parametro3 = arquivo_tpr
     parametro4 = '-deffnm'
     parametro5 = arquivo_pr
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
+
+    # Montagem do comando gmx rms
+    # rms -s 2jof_pr.tpr -f 2jof_pr.xtc -o 2jof_rmsd.xvg -tu ns
+    comando = 'rms'
+    parametro1 = '-s'
+    parametro2 = arquivo_tpr
+    parametro3 = '-f'
+    arquivo_xtc = arquivo_pr + '.xtc'
+    parametro4 = arquivo_xtc
+    parametro5 = '-o'
+    arquivo_rmsd = nome_arquivo + '_rmsd'
+    arquivo_xvg = arquivo_rmsd + '.xvg'
+    parametro6 = arquivo_xvg
+    parametro7 = '-tu'
+    parametro8 = 'ns'
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' \
+    + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 \
+    + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+    comandos.write('\n\n')
+    #fim rms
+
+    #Montagem do comando grace
+    # grace -nxy 2jof_rmsd.xvg -hdevice PNG -hardcopy -printfile ../../2jof_rmsd.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = arquivo_xvg
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    arquivo_png = arquivo_rmsd + '.PNG'
+    parametro7 = '../../' + arquivo_png
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' \
+    + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 \
+    + ' ' + parametro6 + ' ' + parametro7)
+    comandos.write('\n\n')
+
 
     comandos.close()
     return CompleteFileName

@@ -396,36 +396,49 @@ def generate(
 
     # Montagem do comando gmx mdrun para executar a dinamica de position restraints
     # mdrun -v -s MjTXII_pr.tpr -deffnm MjTXII_pr
-    arquivo_pr = nome_arquivo + '_pr'
     comando = 'mdrun'
     parametro1 = '-v'
     parametro2 = '-s'
-    arquivo_tpr = arquivo_pr + '.tpr'
-    parametro3 = arquivo_tpr
+    parametro3 = nome_arquivo + '_pr.tpr'
     parametro4 = '-deffnm'
-    parametro5 = arquivo_pr
+    parametro5 = nome_arquivo + '_pr'
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
-    #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5)
-    # u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5])
+    
 
-    # Montagem do comando gmx rms
-    # rms -s 2jof_pr.tpr -f 2jof_pr.xtc -o 2jof_rmsd.xvg -tu ns
+    # Montagem do comando conversao de trajetoria 
+    # echo "1 0" | gmx_d trjconv -s 2jof_pr.tpr -f 2jof_pr.xtc -o 2jof_pr_PBC.xtc -pbc mol -center
+    prompt = 'echo "1 0"'
+    comando = 'trjconv'
+    parametro1 = '-s'
+    parametro2 = nome_arquivo + '_pr.tpr'
+    parametro3 = '-f'
+    parametro4 = nome_arquivo + '_pr.xtc'
+    parametro5 = '-o'
+    parametro6 = nome_arquivo + '_pr_PBC.xtc'
+    parametro7 = '-pbc'
+    parametro8 = 'mol'
+    parametro9 = '-center'
+    comandos.writelines('{} | {} {} {} {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, 
+    parametro4, parametro5, parametro6, parametro7, parametro8, parametro9))
+    comandos.write('\n\n')
+
+    #fim trjcon
+
+    # Montagem do comando gmx rms da producao
+    # echo "4 4" | gmx_d rms -s 2jof_pr.tpr -f 2jof_pr_PBC.xtc -o 2jof_rmsd.xvg -tu ns
+    prompt ='echo "4 4"'
     comando = 'rms'
     parametro1 = '-s'
-    parametro2 = arquivo_tpr
+    parametro2 = nome_arquivo + '_pr.tpr'
     parametro3 = '-f'
-    arquivo_xtc = arquivo_pr + '.xtc'
-    parametro4 = arquivo_xtc
+    parametro4 = nome_arquivo + '_pr_PBC.xtc'
     parametro5 = '-o'
-    arquivo_rmsd = nome_arquivo + '_rmsd'
-    arquivo_xvg = arquivo_rmsd + '.xvg'
-    parametro6 = arquivo_xvg
+    parametro6 = nome_arquivo + '_rmsd_prod.xvg'
     parametro7 = '-tu'
     parametro8 = 'ns'
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' \
-    + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 \
-    + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+    comandos.writelines('{} | {} {} {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7,parametro8))
     comandos.write('\n\n')
     #fim rms
 
@@ -433,18 +446,179 @@ def generate(
     # grace -nxy 2jof_rmsd.xvg -hdevice PNG -hardcopy -printfile ../../2jof_rmsd.PNG
     comando = 'grace'
     parametro1 = '-nxy'
-    parametro2 = arquivo_xvg
+    parametro2 = nome_arquivo + '_rmsd_prod.xvg'
     parametro3 = '-hdevice'
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    arquivo_png = arquivo_rmsd + '.PNG'
-    parametro7 = '../../' + arquivo_png
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' \
-    + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 \
-    + ' ' + parametro6 + ' ' + parametro7)
+    parametro7 = '../../' + nome_arquivo + '_rmsd_prod.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
     comandos.write('\n\n')
 
+
+ # Montagem do comando gmx rms da estrutura de cristal
+    # echo "4 4" | gmx_d rms -s 2jof_charged -f 2jof_pr_PBC.xtc -o 2jof_rmsd_xtal.xvg -tu ns
+    prompt ='echo "4 4"'
+    comando = 'rms'
+    parametro1 = '-s'
+    parametro2 = nome_arquivo + '_charged.tpr'
+    parametro3 = '-f'
+    parametro4 = nome_arquivo + '_pr_PBC.xtc'
+    parametro5 = '-o'
+    parametro6 = nome_arquivo + '_rmsd_cris.xvg'
+    parametro7 = '-tu'
+    parametro8 = 'ns'
+    comandos.writelines('{} | {} {} {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7,parametro8))
+    comandos.write('\n\n')
+    #fim rms
+
+    #Montagem do comando grace cristal 
+    # grace -nxy 2jof_rmsd.xvg, 2jof_rmsd_xtal.xvg -hdevice PNG -hardcopy -printfile ../../2jof_rmsd_xtal.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_rmsd_cris.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_rmsd_cris.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+
+    #Montagem do comando grace producao+cristal 
+    # grace -nxy 2jof_rmsd.xvg, 2jof_rmsd_xtal.xvg -hdevice PNG -hardcopy -printfile ../../2jof_rmsd_xtal.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_rmsd_prod.xvg ' + nome_arquivo +'_rmsd_cris.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_rmsd_prod_cris.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+
+    #Montagem do comando gyrate 
+    # gmx_d gyrate -s 2jof_pr.tpr -f 2jof_pr_PBC.xtc -o 2jof_gyrate.xvg
+    prompt = 'echo "1"'
+    comando = 'gyrate'
+    parametro1 = '-s'
+    parametro2 = nome_arquivo + '_pr.tpr'
+    parametro3 = '-f'
+    parametro4 = nome_arquivo + '_pr_PBC.xtc'
+    parametro5 = '-o'
+    parametro6 = nome_arquivo + '_gyrate.xvg'
+           
+    comandos.writelines('{} | {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6))
+    comandos.write('\n\n')
+
+    #Montagem do comando grace producao+cristal 
+    # grace -nxy 2jof_gyrate.xvg -hdevice PNG -hardcopy -printfile ../../2jof_gyrate.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_gyrate.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_gyrate.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+
+    #Montagem do comando gyrate 
+    # echo "1" | gmx_d rmsf -s 2jof_pr.tpr -f 2jof_pr_PBC.xtc -o 2jof_rmsf_residue.xvg -res
+    prompt = 'echo "1"'
+    comando = 'rmsf'
+    parametro1 = '-s'
+    parametro2 = nome_arquivo + '_pr.tpr'
+    parametro3 = '-f'
+    parametro4 = nome_arquivo + '_pr_PBC.xtc'
+    parametro5 = '-o'
+    parametro6 = nome_arquivo + '_rmsf_residue.xvg'
+    parametro7 = '-res'
+           
+    comandos.writelines('{} | {} {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+    #Montagem do comando grace producao+cristal 
+    # grace -nxy 2jof_rmsf_residue.xvg -hdevice PNG -hardcopy -printfile ../../2jof_rmsf_residue.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_rmsf_residue.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_rmsf_residue.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+
+    
+
+
+#Montagem do comando gyrate 
+    # echo "1" | gmx_d sasa -s 2jof_pr.tpr -f 2jof_pr_PBC.xtc -o 2jof_solvent_accessible_surface.xvg -or 2jof_sas_residue.xvg
+    prompt = 'echo "1"'
+    comando = 'sasa'
+    parametro1 = '-s'
+    parametro2 = nome_arquivo + '_pr.tpr'
+    parametro3 = '-f'
+    parametro4 = nome_arquivo + '_pr_PBC.xtc'
+    parametro5 = '-o'
+    parametro6 = nome_arquivo + '_solvent_accessible_surface.xvg'
+    parametro7 = '-or'
+    parametro8 = nome_arquivo + '_sas_residue.xvg'
+           
+    comandos.writelines('{} | {} {} {} {} {} {} {} {} {} {}'.format(prompt,gmx,comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7,parametro8))
+    comandos.write('\n\n')
+
+    #Montagem do comando grace sas por total 
+    # grace -nxy 2jof_solvent_accessible_surface.xvg -hdevice PNG -hardcopy -printfile ../../2jof_solvent_accessible_surface.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_solvent_accessible_surface.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_solvent_accessible_surface.PNG'
+       
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
+
+    #Montagem do comando grace sas por residue 
+    # grace -nxy 2jof_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../../2jof_solvent_accessible_surface.PNG
+    comando = 'grace'
+    parametro1 = '-nxy'
+    parametro2 = nome_arquivo + '_sas_residue.xvg'
+    parametro3 = '-hdevice'
+    parametro4 = 'PNG'
+    parametro5 = '-hardcopy'
+    parametro6 = '-printfile'
+    parametro7 = '../../' + nome_arquivo + '_sas_residue.PNG'
+    
+    comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
+    parametro4,parametro5,parametro6,parametro7))
+    comandos.write('\n\n')
 
     comandos.close()
     return CompleteFileName

@@ -1,4 +1,4 @@
-from app import app, login_manager
+from app import app, login_manager, celery
 from flask import render_template, request, redirect, url_for, flash, send_file
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
@@ -110,7 +110,6 @@ def commandsdownload(filename):
 
 @app.route('/executing/<file>/<comp>')
 @login_required
-@celery.task
 def executing(file,comp):
     mol = file.split('.')[0]
     AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
@@ -118,8 +117,8 @@ def executing(file,comp):
                     'logs/', file)
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')
-    execute(AbsFileName, comp, current_user.username, mol).apply_async(countdown=5)
-    return render_template('index.html')
+    exc = execute(AbsFileName, comp, current_user.username, mol).apply_sync()
+    return redirect(url_for('index'))
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

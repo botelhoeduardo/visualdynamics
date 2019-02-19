@@ -36,8 +36,11 @@ def execute(LogFileName, CommandsFileName, username, filename):
             subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
     except subprocess.CalledProcessError as e:
         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        return False
 
     LogFile.close()
+    os.remove(Config.UPLOAD_FOLDER+'executing')
+    return True
 
 
 def create_log(LogFileName):

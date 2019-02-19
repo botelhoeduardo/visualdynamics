@@ -6,6 +6,8 @@ from .config import os, Config
 from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
+from .checkuserdynamics import CheckUserDynamics
+from celery import Celery
 import ast
 import errno
 import zipfile
@@ -26,6 +28,7 @@ def login():
 @login_required
 def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'success')
+    #ve se tem dinamica em andamento
     return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
@@ -50,25 +53,28 @@ def index():
         if request.form.get('execute') == 'Executar':
             #check if the server is running
             try:
-                open(Config.UPLOAD_FOLDER+'executing','x')
+                f = open(Config.UPLOAD_FOLDER+'executing','x+')
+                f.writelines('{}'.format(current_user.username))
+                f.close()
                 #os.path.exists(Config.UPLOAD_FOLDER + 'executing')
             except OSError as e:
                 if e.errno == errno.EEXIST:
                     flash('O servidor está em execução', 'danger')
                     return redirect(url_for('index'))
-            
-            #begins to run
-            file = request.files.get('file')
-            moleculename = file.filename.split('.')[0]
-            if upload_file(file, current_user.username, moleculename):
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                        current_user.username, moleculename , 'run',
-                        'logs/', file.filename)
+            #preparação para executar
+            if upload_file(file, current_user.username):
+                return redirect(url_for('executing',file=file.filename,
+                    comp=CompleteFileName))
+                
+                '''
+                enviando os argumentos para a funcao na rota /executing
                 execute(AbsFileName, CompleteFileName, current_user.username, moleculename)
-            
+                '''                
+                
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
-            os.remove(Config.UPLOAD_FOLDER+'executing')    
+    if CheckUserDynamics(current_user.username) == True:
+        flash('','steps')    
     return render_template('index.html', actindex = 'active')
 
 
@@ -101,6 +107,19 @@ def commandsdownload(filename):
     filename = ast.literal_eval(filename)
     return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,
             current_user.username,filename["name"],filename["complete"]), as_attachment=True)
+
+@app.route('/executing/<file>/<comp>')
+@login_required
+@celery.task
+def executing(file,comp):
+    mol = file.split('.')[0]
+    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, mol , 'run',
+                    'logs/', file)
+    if CheckUserDynamics(current_user.username) == True:
+        flash('','steps')
+    execute(AbsFileName, comp, current_user.username, mol).apply_async(countdown=5)
+    return render_template('index.html')
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

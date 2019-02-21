@@ -6,6 +6,7 @@ from .config import os, Config
 from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
+from .checkuserdynamics import CheckUserDynamics
 import ast
 import errno
 import zipfile
@@ -59,13 +60,13 @@ def index():
                     flash('O servidor está em execução', 'danger')
                     return redirect(url_for('index'))
             #preparação para executar
-            MoleculeName = file.split('.')[0]
+            MoleculeName = file.filename.split('.')[0]
             AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                     current_user.username, MoleculeName , 'run',
-                    'logs/', file)
+                    'logs/', file.filename)
             if upload_file(file, current_user.username):
                 
-                exc = execute(AbsFileName, CommandsFileName,
+                exc = execute(AbsFileName, CompleteFileName,
                     current_user.username, MoleculeName)       
                 
             else:

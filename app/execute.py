@@ -1,10 +1,8 @@
 from .config import Config
 from datetime import datetime
 import subprocess, os, sys, shutil
-from app import celery
 
-@celery.task(bind=True)
-def execute(self, LogFileName, CommandsFileName, username, filename):
+def execute(LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName) #cria o arquivo log
 
     #transferir os arquivos mdp necessarios para a execução

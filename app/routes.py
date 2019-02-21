@@ -1,4 +1,4 @@
-from app import app, login_manager, celery
+from app import app, login_manager
 from flask import render_template, request, redirect, url_for, flash, send_file
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
@@ -6,8 +6,6 @@ from .config import os, Config
 from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
-from .checkuserdynamics import CheckUserDynamics
-from celery import Celery
 import ast
 import errno
 import zipfile
@@ -28,7 +26,6 @@ def login():
 @login_required
 def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'success')
-    #ve se tem dinamica em andamento
     return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
@@ -62,14 +59,14 @@ def index():
                     flash('O servidor está em execução', 'danger')
                     return redirect(url_for('index'))
             #preparação para executar
+            MoleculeName = file.split('.')[0]
+            AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, MoleculeName , 'run',
+                    'logs/', file)
             if upload_file(file, current_user.username):
-                return redirect(url_for('executing',file=file.filename,
-                    comp=CompleteFileName))
                 
-                '''
-                enviando os argumentos para a funcao na rota /executing
-                execute(AbsFileName, CompleteFileName, current_user.username, moleculename)
-                '''                
+                exc = execute(AbsFileName, CommandsFileName,
+                    current_user.username, MoleculeName)       
                 
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
@@ -107,18 +104,6 @@ def commandsdownload(filename):
     filename = ast.literal_eval(filename)
     return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,
             current_user.username,filename["name"],filename["complete"]), as_attachment=True)
-
-@app.route('/executing/<file>/<comp>')
-@login_required
-def executing(file,comp):
-    mol = file.split('.')[0]
-    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username, mol , 'run',
-                    'logs/', file)
-    if CheckUserDynamics(current_user.username) == True:
-        flash('','steps')
-    exc = execute(AbsFileName, comp, current_user.username, mol).apply_sync()
-    return redirect(url_for('index'))
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

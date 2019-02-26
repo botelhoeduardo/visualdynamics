@@ -80,7 +80,7 @@ def index():
 @login_required
 def ligante():
     if CheckUserDynamics(current_user.username) == True:
-        flash('','steps')  
+        flash('','steps')   
     return render_template('ligante.html', actlig = 'active')
 
 @app.route('/imgfiles')

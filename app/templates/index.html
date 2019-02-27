@@ -72,7 +72,8 @@
                 <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
                 <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload() }, 2500);">
+                <!-- onclick="setTimeout(function(){ window.location.reload() }, 2500);" -->
+                <input type="submit" class="btn btn-primary" value="Executar" name="execute">
                 <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
             </form>
     </div>
@@ -81,7 +82,7 @@
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
             <img class="figure-img" src="static/svg/spinner.svg" width="95">
-            <figcaption class="figure-caption">Você tem uma dinâmica em andamento</figcaption>
+            <figcaption class="figure-caption">Você tem uma dinâmica em andamento {{ exc }}</figcaption>
         {% endif %}
         {% endwith %}
         <!--
@@ -133,6 +134,20 @@
             alert('Deve ser selecionada a distancia');
             return false
         }
+    };
+    function do_ajax() {
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function()
+        {
+            if(this.readyState == 4 && this.status == 200) {
+                console.log = this.responseText;
+            }   else {
+                console.log = "deu merda";
+          }
+        }
+        req.open('GET', '/executar', true);
+        req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        req.send('sent');
     };
 
 </script>

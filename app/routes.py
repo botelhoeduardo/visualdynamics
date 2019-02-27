@@ -1,5 +1,5 @@
 from app import app, login_manager
-from flask import render_template, request, redirect, url_for, flash, send_file
+from flask import render_template, request, redirect, url_for, flash, send_file, stream_with_context, Response
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
@@ -7,6 +7,7 @@ from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
 from .checkuserdynamics import CheckUserDynamics
+from .streamtemplate import stream_template
 import ast
 import errno
 import zipfile
@@ -61,20 +62,24 @@ def index():
                     return redirect(url_for('index'))
             #preparação para executar
             MoleculeName = file.filename.split('.')[0]
-            AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username, MoleculeName , 'run',
-                    'logs/', file.filename)
+            
             if upload_file(file, current_user.username):
-                
-                exc = execute(AbsFileName, CompleteFileName,
-                    current_user.username, MoleculeName)       
-                
+                return redirect(url_for('executar', comp=CompleteFileName,
+                    mol=MoleculeName, filename=file.filename))  
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')    
     return render_template('index.html', actindex = 'active')
 
+@app.route('/executar/<comp>/<mol>/<filename>')
+@login_required
+def executar(comp,mol,filename):
+    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, mol , 'run',
+                    'logs/', filename)
+    exc = execute(AbsFileName, comp, current_user.username, mol)
+    return Response(stream_template('index.html', exc=exc))
 
 @app.route('/ligante')
 @login_required

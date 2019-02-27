@@ -21,12 +21,13 @@ def execute(LogFileName, CommandsFileName, username, filename):
     #with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
-
     
-    
-    try:
-        # lendo cada linha do arquivo texto
-        for l in lines:
+    #try:
+    # lendo cada linha do arquivo texto
+    for l in lines:
+        if l[0] == '#':
+            yield l
+        else:
             #estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
 
@@ -34,13 +35,11 @@ def execute(LogFileName, CommandsFileName, username, filename):
             #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
             #parametro stout=LogFile pra escrever log
             subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-        return False
+    #except subprocess.CalledProcessError as e:
+    #    raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executing')
-    return True
 
 
 def create_log(LogFileName):

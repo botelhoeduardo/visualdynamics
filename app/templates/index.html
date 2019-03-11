@@ -53,7 +53,7 @@
 
                 <label class="form-control-label" for="distanciacaixa">Distância entre a proteína e a borda da caixa 
                     (
-                    <img src="static/svg/angstrom.svg" width="13">
+                    <img src="{{ url_for('static', filename='svg/angstrom.svg') }}" width="13">
                     )
                 </label>
                 <div class="input-group mb-3">
@@ -76,33 +76,36 @@
                 <input type="submit" class="btn btn-primary" value="Executar" name="execute">
                 <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
             </form>
-    </div>
+        </div>
 
     <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
-            <img class="figure-img" src="static/svg/spinner.svg" width="95">
-            <figcaption class="figure-caption">Você tem uma dinâmica em andamento {{ exc }}</figcaption>
-        {% endif %}
+        <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="95">
+            <figcaption class="figure-caption">Você tem uma dinâmica em andamento</figcaption>
+            {% endif %}
+            {% for step in exc %}{{step}}{% endfor %}
+            <!-- <button id="topology" class="btn-secondary btn m-auto btn-info">{{step}}</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24"> -->
+            <!-- <button id="solvate" class="btn-secondary btn m-auto">Definir Caixa e Solvatar</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="ions" class="btn-secondary btn m-auto">Adicionar Ions</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="minimizationsteepdesc" class="btn-secondary btn m-auto">Minimização SD</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="minimizationconjgrad" class="btn-secondary btn m-auto">Minimização CG</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="equilibrationnvt" class="btn-secondary btn m-auto ">Equilibração NVT</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="equilibrationnpt" class="btn-secondary btn m-auto ">Equilabração NPT</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="24">
+            <button id="productionmd" class="btn-secondary btn m-auto">Produção MD</button>
+             -->
+            <!-- <i id="step" style="visibility:hidden">{% for step in exc %}{{step}}{% endfor %}</i>    -->
+            
         {% endwith %}
-        <!--
-        {% set btnOK = 'btn-info' %}
-        <button class="btn-secondary btn m-auto {{btnOK if '#topology' in steps else ''}}">Gerar Topologia</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#solvate' in steps else ''}}">Define Caixa e Solvatar</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#ions' in steps else ''}}">Adicionar Ions</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#minisd' in steps else ''}}">Minimização SD</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#minicg' in steps else ''}}">Minimização CG</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#eqnvt' in steps else ''}}">Equilibração NVT</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#eqnpt' in steps else ''}}">Equilabração NPT</button>
-        <img src="static/svg/arrow-down.svg" width="24" style="-webkit-transform: rotate(90deg);">
-        <button class="btn-secondary btn m-auto {{btnOK if '#prodmd' in steps else ''}}">Produção MD</button>
-        -->
+        
+      
     </div>
 </div>
 
@@ -135,20 +138,7 @@
             return false
         }
     };
-    function do_ajax() {
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function()
-        {
-            if(this.readyState == 4 && this.status == 200) {
-                console.log = this.responseText;
-            }   else {
-                console.log = "deu merda";
-          }
-        }
-        req.open('GET', '/executar', true);
-        req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-        req.send('sent');
-    };
 
 </script>
+
 {% endblock %}

@@ -79,6 +79,7 @@ def executar(comp,mol,filename):
                     current_user.username, mol , 'run',
                     'logs/', filename)
     exc = execute(AbsFileName, comp, current_user.username, mol)
+    flash('','steps')
     return Response(stream_with_context(stream_template('index.html', exc=exc)))
 
 @app.route('/ligante')

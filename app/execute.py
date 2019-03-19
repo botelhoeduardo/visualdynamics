@@ -26,12 +26,11 @@ def execute(LogFileName, CommandsFileName, username, filename):
     # lendo cada linha do arquivo texto
     for l in lines:
         if l[0] == '#':
-            yield l
+            WriteUserDynamics(l)
         else:
             #estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
 
-            #se for comentario ve qual imagem vai criar
             #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
             #parametro stout=LogFile pra escrever log
             subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
@@ -56,3 +55,13 @@ def create_log(LogFileName):
     
     LogFile = open(LogFileName, "w+")
     return LogFile
+
+def WriteUserDynamics(line):
+    filename = Config.UPLOAD_FOLDER + 'executing'
+    try:
+        f = open(filename,'a')
+        f.write(line + '\n')
+        f.close()
+    except OSError:
+        print('erro ao adicionar linha no arquivo de dinamica-usuario')
+        raise

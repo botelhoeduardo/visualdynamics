@@ -6,7 +6,7 @@ from .config import os, Config
 from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
-from .checkuserdynamics import CheckUserDynamics
+from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
 from .streamtemplate import stream_template
 import ast
 import errno
@@ -53,7 +53,7 @@ def index():
             #check if the server is running
             try:
                 f = open(Config.UPLOAD_FOLDER+'executing','x+')
-                f.writelines('{}'.format(current_user.username))
+                f.writelines('{}\n'.format(current_user.username))
                 f.close()
                 #os.path.exists(Config.UPLOAD_FOLDER + 'executing')
             except OSError as e:
@@ -70,6 +70,8 @@ def index():
                 flash('Extensão do arquivo está incorreta', 'danger')
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')    
+        steplist = CheckDynamicsSteps(current_user.username)
+        return render_template('index.html', actindex = 'active', steplist=steplist)
     return render_template('index.html', actindex = 'active')
 
 @app.route('/executar/<comp>/<mol>/<filename>')
@@ -80,7 +82,8 @@ def executar(comp,mol,filename):
                     'logs/', filename)
     exc = execute(AbsFileName, comp, current_user.username, mol)
     flash('','steps')
-    return Response(stream_with_context(stream_template('index.html', exc=exc)))
+    return redirect(url_for('index'))
+
 
 @app.route('/ligante')
 @login_required

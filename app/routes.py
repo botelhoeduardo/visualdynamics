@@ -127,6 +127,29 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+    if current_user.username != 'admin':
+        return current_app.login_manager.unauthorized()
+    return render_template('admin.html')
+    if request.method == 'POST':
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        if password == passconfirm:
+            new = User(username=user,email=email)
+            new.set_password(password)
+            db.session.add(new)
+            db.session.commit()
+            flash('Usuário criado com sucesso!', 'success')
+            return redirect(url_for('index'))
+        flash('Erro ao criar usuário', 'danger')
+        return redirect(url_for('index'))
+
+    
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))

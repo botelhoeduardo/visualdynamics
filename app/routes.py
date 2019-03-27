@@ -1,5 +1,5 @@
 from app import app, login_manager
-from flask import render_template, request, redirect, url_for, flash, send_file, stream_with_context, Response
+from flask import render_template, request, redirect, url_for, flash, send_file, stream_with_context, Response, current_app
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config

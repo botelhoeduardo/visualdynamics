@@ -1,5 +1,5 @@
 from app import app, login_manager
-from flask import render_template, request, redirect, url_for, flash, send_file, stream_with_context, Response, current_app
+from flask import render_template, request, redirect, url_for, flash, send_file, current_app
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
@@ -7,7 +7,7 @@ from .generate import generate
 from .execute import execute
 from .upload_file import upload_file
 from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
-from .streamtemplate import stream_template
+from .admin_required import admin_required
 import ast
 import errno
 import zipfile
@@ -129,9 +129,8 @@ def logout():
 
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def admin():
-    if current_user.username != 'admin':
-        return current_app.login_manager.unauthorized()
     return render_template('admin.html')
     if request.method == 'POST':
         user = request.form.get('username')
@@ -147,8 +146,6 @@ def admin():
             return redirect(url_for('index'))
         flash('Erro ao criar usuário', 'danger')
         return redirect(url_for('index'))
-
-    
 
 @login_manager.user_loader
 def load_user(id):

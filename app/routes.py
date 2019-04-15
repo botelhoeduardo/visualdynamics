@@ -128,10 +128,10 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'POST'])
-@login_required
 @admin_required
 def admin():
-    return render_template('admin.html')
+    UserData = User.query.all()
+    return render_template('admin.html', UserData=UserData)
     if request.method == 'POST':
         user = request.form.get('username')
         email = request.form.get('email')
@@ -146,6 +146,11 @@ def admin():
             return redirect(url_for('index'))
         flash('Erro ao criar usuário', 'danger')
         return redirect(url_for('index'))
+
+@app.route('/admin/<user>')
+@admin_required
+def edit_user(user):
+    UserData = User.query.get(int(user))    return render_template('edit_user.html',UserData=UserData)
 
 @login_manager.user_loader
 def load_user(id):

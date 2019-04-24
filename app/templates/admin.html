@@ -17,9 +17,17 @@
         <th scope="row">{{u.id}}</th>
         <td>{{u.username}}</td>
         <td>{{u.email}}</td>
-        <td><a href="/admin/{{u.id}}">Editar</a></td>
+        <td><a href="/admin/edit/{{u.id}}">Editar</a></td>        
+        <td>
+        {% if u.username != 'admin' %}  
+          <a href="/admin/remove/{{u.id}}" class="border border-danger rounded text-danger">X</a>
+        {% endif %}
+      </td>
       </tr>
     {% endfor %}
+    <tr>
+      <a href="/admin/new" class="btn btn-success mb-2">+ Criar Novo Usuário</a>
+    </tr>
     </tbody>
   </table>
 

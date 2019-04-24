@@ -1,4 +1,4 @@
-from app import app, login_manager
+from app import app, login_manager, db
 from flask import render_template, request, redirect, url_for, flash, send_file, current_app
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
@@ -132,6 +132,40 @@ def logout():
 def admin():
     UserData = User.query.all()
     return render_template('admin.html', UserData=UserData)
+
+@app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def edit_user(id):
+    if request.method == 'POST':
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        if password == '' and passconfirm == '':
+            UserData = User.query.get(int(id))
+            UserData.username = user
+            UserData.email = email
+            db.session.add(UserData)
+            db.session.commit()
+            flash('Nome de Usuário e E-mail alterados com sucesso', 'success')
+            return redirect(url_for('index'))
+        elif password == passconfirm:
+            UserData = User.query.get(int(id))
+            UserData.username = user
+            UserData.email = email
+            UserData.set_password(password)
+            db.session.add(UserData)
+            db.session.commit()
+            flash('Senha alterada com sucesso', 'success')
+            return redirect(url_for('index'))
+        flash('Erro ao criar usuário', 'danger')
+        return redirect(url_for('index'))
+    UserData = User.query.get(int(id))
+    return render_template('edit_user.html', UserData=UserData)
+
+@app.route('/admin/new', methods=['GET', 'POST'])
+@admin_required
+def newuser():
     if request.method == 'POST':
         user = request.form.get('username')
         email = request.form.get('email')
@@ -146,11 +180,19 @@ def admin():
             return redirect(url_for('index'))
         flash('Erro ao criar usuário', 'danger')
         return redirect(url_for('index'))
+    return render_template('new_user.html')
 
-@app.route('/admin/<user>')
+@app.route('/admin/remove/<int:id>')
 @admin_required
-def edit_user(user):
-    UserData = User.query.get(int(user))    return render_template('edit_user.html',UserData=UserData)
+def removeuser(id):
+    UserData = User.query.get(int(id))
+    if UserData.username != 'admin':
+        db.session.delete(UserData)
+        db.session.commit()
+        flash('Usuário removido com sucesso', 'success')
+        return redirect(url_for('admin'))
+    flash('Não é possível remover o admin', 'danger')
+    return redirect(url_for('index'))
 
 @login_manager.user_loader
 def load_user(id):

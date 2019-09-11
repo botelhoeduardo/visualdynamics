@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="d-flex">
+    <a href="/admin/new" class="btn btn-success mb-2 ml-2">+ Criar Novo Usuário</a>
+    <a href="/admin/edit-ions" class="btn btn-primary mb-2 ml-auto mr-2"> Editar Valor do nsteps</a>
+</div>
 
 <table class="table">
     <thead>
@@ -8,6 +12,7 @@
         <th scope="col">#</th>
         <th scope="col">Nome do Usuário</th>
         <th scope="col">E-mail</th>
+        <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -25,9 +30,7 @@
       </td>
       </tr>
     {% endfor %}
-    <tr>
-      <a href="/admin/new" class="btn btn-success mb-2">+ Criar Novo Usuário</a>
-    </tr>
+      
     </tbody>
   </table>
 

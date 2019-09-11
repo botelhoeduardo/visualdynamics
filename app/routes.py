@@ -197,3 +197,32 @@ def removeuser(id):
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+@app.route('/admin/edit-ions', methods = ['GET', 'POST'])
+@admin_required
+def edit_ions():
+    #modifica o valor do nsteps no arquivo ions.mdp
+    if request.method == 'POST':    
+        new_nsteps = request.form.get('editions')
+        #print(new_nsteps)
+        archive = open("mdpfiles/ions.mdp","r") 
+        list = archive.readlines()
+        archive = open("mdpfiles/ions.mdp","w")
+        list[5] = "nsteps      = "+ new_nsteps +"         ; Maximum number of (minimization) steps to perform \n"
+        archive.writelines(list)
+        flash('Valor do nsteps foi atualizado com sucesso.', 'success')
+        
+    #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
+    archive = open("mdpfiles/ions.mdp","r")
+    list = archive.readlines()
+    str = list[5].split(';')
+    str = str[0]
+    aux = str[14:]
+    
+    nsteps = int(aux) 
+        
+    archive.close()
+    
+    return render_template('edit_ions.html', nsteps = nsteps)
+
+

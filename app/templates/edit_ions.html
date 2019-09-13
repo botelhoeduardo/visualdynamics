@@ -1,15 +1,20 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<div class="container">
-        <div class="row justify-content-center align-items-start">
+<div class="container align-items-center">
             <form class="align-items-center text-center" action="" method="post">
-                <label class="form-control-label" for="edit"> Valor do nsteps: </label> 
-                <input type="number" name="editions" id = "edit" class="form-control-label text-center mt-3" value="{{ nsteps }}">
-                <input class="m-2 btn-ln btn-primary" type="submit" value="Salvar Atualização" name="submit">
+                <div class="form-group">
+                    <label class="form-control-label" for="edit"> Valor do nsteps: </label> 
+                    <input type="number" name="editnstep" step="100" id = "editnstep" class="form-control-label text-center mt-3" value="{{ nsteps }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="edit"> Valor do emstep: </label> 
+                    <input type="number" name="editemstep" step="0.01" max="0.5" id = "editemstep" class="form-control-label text-center mt-3" value="{{ emstep }}">
+                </div>
+                    <input class="m-2 btn-ln btn-primary" type="submit" value="Salvar Atualização" name="submit">
+                
             </form>
-        </div>
-    </div>
+            </div>
 
 
 {% endblock %}

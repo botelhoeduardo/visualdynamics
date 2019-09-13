@@ -203,40 +203,56 @@ def load_user(id):
 def edit_ions():
     #modifica o valor do nsteps no arquivo ions.mdp
     if request.method == 'POST':    
-        new_nsteps = request.form.get('editions')
+        new_nsteps = request.form.get('editnstep')
+        new_emstep = request.form.get('editemstep')
         archive = open("mdpfiles/ions.mdp","r") 
         file = archive.readlines()
-        i=0
-        for text in file:
-            if(text.find('nsteps') >-1):
+        
+        #altera o valor do nsteps
+        for i, text in enumerate(file):
+            if text.find('nsteps') > -1:
                 archive = open("mdpfiles/ions.mdp","w")       
-                #importante não alterar a string
                 # altera a linha inteira do nsteps        
                 file[i] = "nsteps      = "+ new_nsteps +"         ; Maximum number of (minimization) steps to perform \n"
-                archive.writelines(file)
-            #contador para encontrar o indice do nsteps na lista 
-            i += 1
-    
-        flash('Valor do nsteps foi atualizado com sucesso.', 'success')
+                archive.writelines(file) 
+
+        #altera o valor do emstep
+        for i, text in enumerate(file):
+            if text.find('emstep') > -1:
+                archive = open("mdpfiles/ions.mdp","w")
+                # altera a linha inteira do nsteps
+                file[i] = "emstep      = "+ new_emstep +"          ; Minimization step size \n"
+                archive.writelines(file) 
+
+
+        flash('atualização realizada com sucesso.', 'success')
+        return redirect(url_for('edit_ions'))
         
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)
     archive = open("mdpfiles/ions.mdp","r")
     file = archive.readlines()
-    i=0
+
+    #le o valor atual do nsteps
     for text in file:
-        if(text.find('nsteps') >-1):
+        if text.find('nsteps') > -1:
             i = text.find('= ')        
             i+=2
             text = text[i:].split(';')
-            aux = text[0]
+            nsteps = text[0]
+            nsteps = int(nsteps)
 
-            nsteps = int(aux)
-        
-        i+=1
+    #le o valor atual do emstep
+    for text in file:
+        if text.find('emstep') > -1:
+            i = text.find('= ')
+            i+=2
+            text = text[i:].split(';')
+            emstep = text[0]
+            emstep = float(emstep)
     
     archive.close()
     
-    return render_template('edit_ions.html', nsteps = nsteps)
+    return render_template('edit_ions.html', nsteps = nsteps, emstep=emstep)
 
 

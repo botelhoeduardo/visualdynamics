@@ -206,7 +206,7 @@ def edit_ions():
     if request.method == 'POST':    
         new_nsteps = request.form.get('editnstep')
         new_emstep = request.form.get('editemstep')
-        archive = open("mdpfiles/ions.mdp","r") 
+        archive = open("ions.mdp","r") 
         file = archive.readlines()
         
         #altera o valor do nsteps

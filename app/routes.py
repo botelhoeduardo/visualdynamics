@@ -201,6 +201,7 @@ def load_user(id):
 @app.route('/admin/edit-ions', methods = ['GET', 'POST'])
 @admin_required
 def edit_ions():
+    os.chdir(Config.MDP_LOCATION_FOLDER)
     #modifica o valor do nsteps no arquivo ions.mdp
     if request.method == 'POST':    
         new_nsteps = request.form.get('editnstep')
@@ -211,7 +212,7 @@ def edit_ions():
         #altera o valor do nsteps
         for i, text in enumerate(file):
             if text.find('nsteps') > -1:
-                archive = open("mdpfiles/ions.mdp","w")       
+                archive = open("ions.mdp","w")       
                 # altera a linha inteira do nsteps        
                 file[i] = "nsteps      = "+ new_nsteps +"         ; Maximum number of (minimization) steps to perform \n"
                 archive.writelines(file) 
@@ -219,7 +220,7 @@ def edit_ions():
         #altera o valor do emstep
         for i, text in enumerate(file):
             if text.find('emstep') > -1:
-                archive = open("mdpfiles/ions.mdp","w")
+                archive = open("ions.mdp","w")
                 # altera a linha inteira do nsteps
                 file[i] = "emstep      = "+ new_emstep +"          ; Minimization step size \n"
                 archive.writelines(file) 
@@ -230,9 +231,13 @@ def edit_ions():
         
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)
-    archive = open("mdpfiles/ions.mdp","r")
-    file = archive.readlines()
+    try:
+        archive = open("ions.mdp","r")
+    except:
+        flash('Arquivo ions.mdp não Localizado.', 'danger')
+        return redirect(url_for('admin'))
 
+    file = archive.readlines()
     #le o valor atual do nsteps
     for text in file:
         if text.find('nsteps') > -1:

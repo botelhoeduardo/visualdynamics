@@ -10,4 +10,4 @@ class Config(object):
     STATIC_FOLDER = os.path.expanduser('~') + '/visualdynamics/app'
     ALLOWED_EXTENSIONS = {'pdb'}
     SOURCE_COMMAND = '/bin/bash -c source /usr/local/gromacs/bin/GMXRC'
-    MDP_LOCATION_FOLDER = 'visualdynamics/mdpfiles'
+    MDP_LOCATION_FOLDER = os.path.expanduser('~') + '/visualdynamics/mdpfiles'

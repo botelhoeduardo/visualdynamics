@@ -74,6 +74,7 @@ def index():
         return render_template('index.html', actindex = 'active', steplist=steplist)
     return render_template('index.html', actindex = 'active')
 
+
 @app.route('/executar/<comp>/<mol>/<filename>')
 @login_required
 def executar(comp,mol,filename):
@@ -82,6 +83,7 @@ def executar(comp,mol,filename):
                     'logs/', filename)
     exc = execute(AbsFileName, comp, current_user.username, mol)
     flash('','steps')
+    flash(exc,'danger')
     return redirect(url_for('index'))
 
 
@@ -198,43 +200,43 @@ def removeuser(id):
 def load_user(id):
     return User.query.get(int(id))
 
-@app.route('/admin/edit-ions', methods = ['GET', 'POST'])
+@app.route('/admin/edit-md', methods = ['GET', 'POST'])
 @admin_required
-def edit_ions():
+def edit_md():
     os.chdir(Config.MDP_LOCATION_FOLDER)
     #modifica o valor do nsteps no arquivo ions.mdp
     if request.method == 'POST':    
         new_nsteps = request.form.get('editnstep')
-        new_emstep = request.form.get('editemstep')
-        archive = open("ions.mdp","r") 
+        new_dt = request.form.get('editDt')
+        archive = open("md_pr.mdp","r") 
         file = archive.readlines()
         
         #altera o valor do nsteps
         for i, text in enumerate(file):
             if text.find('nsteps') > -1:
-                archive = open("ions.mdp","w")       
+                archive = open("md_pr.mdp","w")       
                 # altera a linha inteira do nsteps        
-                file[i] = "nsteps      = "+ new_nsteps +"         ; Maximum number of (minimization) steps to perform \n"
+                file[i] = "nsteps      = "+ new_nsteps +"    ; 2 * 50000 = 1000 ps (1 ns) \n"
                 archive.writelines(file) 
 
         #altera o valor do emstep
         for i, text in enumerate(file):
-            if text.find('emstep') > -1:
-                archive = open("ions.mdp","w")
+            if text.find('dt') > -1:
+                archive = open("md_pr.mdp","w")
                 # altera a linha inteira do nsteps
-                file[i] = "emstep      = "+ new_emstep +"          ; Minimization step size \n"
+                file[i] = "dt          = "+ new_dt +"     ; 2 fs \n"
                 archive.writelines(file) 
 
 
         flash('atualização realizada com sucesso.', 'success')
-        return redirect(url_for('edit_ions'))
+        return redirect(url_for('edit_md'))
         
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)
     try:
-        archive = open("ions.mdp","r")
+        archive = open("md_pr.mdp","r")
     except:
-        flash('Arquivo ions.mdp não Localizado.', 'danger')
+        flash('Arquivo md_pr.mdp não Localizado.', 'danger')
         return redirect(url_for('admin'))
 
     file = archive.readlines()
@@ -249,15 +251,15 @@ def edit_ions():
 
     #le o valor atual do emstep
     for text in file:
-        if text.find('emstep') > -1:
+        if text.find('dt') > -1:
             i = text.find('= ')
             i+=2
             text = text[i:].split(';')
-            emstep = text[0]
-            emstep = float(emstep)
+            dt = text[0]
+            dt = float(dt)
     
     archive.close()
     
-    return render_template('edit_ions.html', nsteps = nsteps, emstep=emstep)
+    return render_template('edit_md.html', nsteps = nsteps, dt = dt)
 
 

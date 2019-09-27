@@ -110,7 +110,6 @@ def imgsdownload():
 
     return (send_file(ziplocation, as_attachment=True))
 
-
 @app.route('/download/<filename>')
 @login_required
 def commandsdownload(filename):

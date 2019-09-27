@@ -109,8 +109,9 @@ def generate(
     parametro6 = arquivo_top
     parametro7 ='-o'
     parametro8 = arquivo_ionizado
+    parametro9 = '-maxwarn 2'
     comandos.write('#ions\n\n')
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     #u=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7,parametro8])
@@ -156,8 +157,9 @@ def generate(
         parametro6 = arquivo_top
         parametro7 = '-o'
         parametro8 = arquivo_ionizado
+        parametro9 = '-maxwarn 2'
         comandos.write('#minimizationsteepdesc\n\n')
-        comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+        comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9)
         comandos.write('\n\n')
         #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
         # t=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7,parametro8])
@@ -215,8 +217,9 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo+'_cg_em'
+    parametro9 = '-maxwarn 2'
     comandos.write('#minimizationconjgrad\n\n')
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8 + ' ' + parametro9)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5+ ' ' + parametro6+ ' ' + parametro7+ ' ' + parametro8)
     # v=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8])
@@ -275,9 +278,10 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_nvt.tpr'
+    parametro11 = '-maxwarn 2'
     comandos.write('#equilibrationnvt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
-    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
+    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11)
     comandos.write('\n\n')
 
     #Montagem do comando gmx mdrun para executar a primeira etapa do equilibrio
@@ -332,9 +336,10 @@ def generate(
     parametro8 = arquivo_top
     parametro9 = '-o'
     parametro10 = nome_arquivo + '_npt.tpr'
+    parametro11 = '-maxwarn 2'
     comandos.write('#equilibrationnpt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' \
-    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
+    + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11)
     comandos.write('\n\n')
 
     #Montagem do comando gmx mdrun para executar a segunda etapa do equilibrio
@@ -387,8 +392,9 @@ def generate(
     parametro6 = arquivo_top
     parametro7 = '-o'
     parametro8 = nome_arquivo + '_pr'
+    parametro9 = '-maxwarn 2'
     comandos.write('#productionmd\n\n')
-    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9)
     comandos.write('\n\n')
     #print(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     # v=subprocess.check_output([gmx, comando, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, parametro7, parametro8])

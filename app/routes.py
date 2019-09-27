@@ -50,20 +50,18 @@ def index():
                     filename={"complete" : CompleteFileName,
                     "name": file.filename.split('.')[0]}))
         if request.form.get('execute') == 'Executar':
-            #check if the server is running
-            try:
-                f = open(Config.UPLOAD_FOLDER+'executing','x+')
-                f.writelines('{}\n'.format(current_user.username))
-                f.close()
-                #os.path.exists(Config.UPLOAD_FOLDER + 'executing')
-            except OSError as e:
-                if e.errno == errno.EEXIST:
-                    flash('O servidor está em execução', 'danger')
-                    return redirect(url_for('index'))
-            #preparação para executar
-            MoleculeName = file.filename.split('.')[0]
-            
             if upload_file(file, current_user.username):
+                #checar se servidor esta em execução
+                try:
+                    f = open(Config.UPLOAD_FOLDER+'executing','x+')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        flash('O servidor está em execução', 'danger')
+                        return redirect(url_for('index'))
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
                 return redirect(url_for('executar', comp=CompleteFileName,
                     mol=MoleculeName, filename=file.filename))  
             else:

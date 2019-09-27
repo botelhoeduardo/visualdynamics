@@ -33,12 +33,16 @@ def execute(LogFileName, CommandsFileName, username, filename):
 
             #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
             #parametro stout=LogFile pra escrever log
-            subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            try:
+                process.check_returncode()
+            except subprocess.CalledProcessError as e:
+                    LogFile.close()
+                    os.remove(Config.UPLOAD_FOLDER+'executing')
+                    return (e.args)
             
         #except subprocess.CalledProcessError as e:
     #raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-            
-
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executing')
 

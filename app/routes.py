@@ -82,8 +82,7 @@ def executar(comp,mol,filename):
                     current_user.username, mol , 'run',
                     'logs/', filename)
     exc = execute(AbsFileName, comp, current_user.username, mol)
-    flash('','steps')
-    flash(exc,'danger')
+    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('index'))
 
 

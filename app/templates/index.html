@@ -104,7 +104,9 @@
             <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">Restrição NPT</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
             <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
-        
+            {% if '#productionmd' in steplist %}
+                <button id="datefinish" class="btn-success btn m-auto" value="{{date_finish}}"></button>
+                {% endif %}
             {% endif %}
             <!-- {% for step in exc %}
             <button style="cursor:default;" class="btn-secondary btn m-auto btn-success">{{step}}</button>

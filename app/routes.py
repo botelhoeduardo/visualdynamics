@@ -69,7 +69,24 @@ def index():
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')    
         steplist = CheckDynamicsSteps(current_user.username)
+        directory = Config.UPLOAD_FOLDER+"executing"
+        archive = open(directory, "r")
+        f = archive.readlines()
+        last_line = f[len(f)-1]
+        if last_line == '#productionmd':
+            directory = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, MoleculeName, 'run',
+                    'logs/', file.filename)
+            archive = open(directory, "r")
+            f = archive.readlines()
+            last_line = f[len(f)-1]
+            last_line = last_line.split('\n')
+            date = last_line[0].split(',')
+            date_finish = date[1]
+            return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
+        
         return render_template('index.html', actindex = 'active', steplist=steplist)
+    
     return render_template('index.html', actindex = 'active')
 
 

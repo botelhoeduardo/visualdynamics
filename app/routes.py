@@ -73,17 +73,21 @@ def index():
         archive = open(directory, "r")
         f = archive.readlines()
         last_line = f[len(f)-1]
-        if last_line == '#productionmd':
-            directory = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username, MoleculeName, 'run',
-                    'logs/', file.filename)
-            archive = open(directory, "r")
-            f = archive.readlines()
-            last_line = f[len(f)-1]
-            last_line = last_line.split('\n')
-            date = last_line[0].split(',')
-            date_finish = date[1]
-            return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
+        if last_line == '#productionmd\n':
+            for i, text in enumerate(f):
+                if text.find('/') > -1:
+                    f = f[i].split('/VDfiles/')
+                    f = f[1].split(' \n')
+                    directory = Config.UPLOAD_FOLDER+f[0]
+                    archive = open(directory, "r")
+                    f = archive.readlines()
+                    last_line = f[len(f)-1]
+                    last_line = last_line.split('\n')
+                    date = last_line[0].split(',')
+                    for i, text in enumerate(date):
+                        if text.find('will finish') > -1:
+                            date_finish = date[i]
+                            return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
         
         return render_template('index.html', actindex = 'active', steplist=steplist)
     

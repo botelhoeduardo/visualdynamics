@@ -51,8 +51,8 @@ def create_log(LogFileName):
     #formatando nome do arquivo log
     LogFileName = LogFileName.split('.')
     LogFileName.pop()
-    LogFileName = ".".join(LogFileName) + \
-            " - {}-{}-{} [{}:{}:{}]{}".format(
+    LogFileName = ".".join(LogFileName)+\
+            "-{}-{}-{}[{}:{}:{}]{}".format(
             datetime.now().year, datetime.now().month,
             datetime.now().day, datetime.now().hour,
             datetime.now().minute, datetime.now().second,
@@ -60,6 +60,8 @@ def create_log(LogFileName):
             )
     
     LogFile = open(LogFileName, "w+")
+    f = open(Config.UPLOAD_FOLDER+'executing', 'a')
+    f.write(LogFileName + ' \n')
     return LogFile
 
 def WriteUserDynamics(line):

@@ -3,7 +3,7 @@ from datetime import datetime
 import subprocess, os, sys, shutil
 
 def execute(LogFileName, CommandsFileName, username, filename):
-    LogFile = create_log(LogFileName) #cria o arquivo log
+    LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
@@ -34,20 +34,23 @@ def execute(LogFileName, CommandsFileName, username, filename):
             #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
             #parametro stout=LogFile pra escrever log
             process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            
             try:
                 process.check_returncode()
             except subprocess.CalledProcessError as e:
                     LogFile.close()
                     os.remove(Config.UPLOAD_FOLDER+'executing')
                     return (e.args)
-            
+        
         #except subprocess.CalledProcessError as e:
     #raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+    
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executing')
+    os.remove(Config.UPLOAD_FOLDER+username+'//DirectoryLog')
 
 
-def create_log(LogFileName):
+def create_log(LogFileName, username):
     #formatando nome do arquivo log
     LogFileName = LogFileName.split('.')
     LogFileName.pop()
@@ -60,8 +63,8 @@ def create_log(LogFileName):
             )
     
     LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER+'executing', 'a')
-    f.write(LogFileName + ' \n')
+    f = open(Config.UPLOAD_FOLDER+username+'/DirectoryLog', 'w')
+    f.write(LogFileName)
     return LogFile
 
 def WriteUserDynamics(line):

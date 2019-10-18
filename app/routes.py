@@ -5,7 +5,6 @@ from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
 from .generate import generate
 from .execute import execute
-from .date_finish import Date_finish
 from .upload_file import upload_file
 from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
 from .admin_required import admin_required
@@ -64,22 +63,31 @@ def index():
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
                 return redirect(url_for('executar', comp=CompleteFileName,
-                    mol=MoleculeName, filename=file.filename))  
+                    mol=MoleculeName, filename=file.filename)) 
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
-    if CheckUserDynamics(current_user.username) == True:
-        flash('','steps')    
-        steplist = CheckDynamicsSteps(current_user.username)
-        directory = Config.UPLOAD_FOLDER+"executing"
-        archive = open(directory, "r")
-        f = archive.readlines()
-        last_line = f[len(f)-1]     
-        if last_line == '#productionmd\n':
-            date_finish = Date_finish()
-            return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
-        archive.close()
-        return render_template('index.html', actindex = 'active', steplist=steplist)
     
+    if CheckUserDynamics(current_user.username) == True:
+            flash('','steps')    
+            steplist = CheckDynamicsSteps(current_user.username)
+            archive = open(Config.UPLOAD_FOLDER+"executing", "r")
+            f = archive.readlines()
+            last_line = f[len(f)-1]     
+            if last_line == '#productionmd\n':
+                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/DirectoryLog', 'r')
+                directory = archive.readline()
+                archive = open(directory,'r')
+                lines = archive.readlines()
+                last_line = lines[len(lines)-1]
+                if last_line.find('step ') > -1:
+                    date_finish = last_line        
+                    archive.close()
+                    return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
+            
+            archive.close()
+            return render_template('index.html', actindex = 'active', steplist=steplist) 
+             
+
     return render_template('index.html', actindex = 'active')
 
 

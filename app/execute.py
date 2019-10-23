@@ -40,6 +40,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
             except subprocess.CalledProcessError as e:
                     LogFile.close()
                     os.remove(Config.UPLOAD_FOLDER+'executing')
+                    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
                     return (e.args)
         
         #except subprocess.CalledProcessError as e:
@@ -47,7 +48,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
     
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executing')
-    os.remove(Config.UPLOAD_FOLDER+username+'//DirectoryLog')
+    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
 
 
 def create_log(LogFileName, username):

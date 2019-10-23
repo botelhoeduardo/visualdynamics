@@ -73,13 +73,18 @@ def index():
             archive = open(Config.UPLOAD_FOLDER+"executing", "r")
             f = archive.readlines()
             last_line = f[len(f)-1]     
+            #verifica se a execução já está  em produçãomd
             if last_line == '#productionmd\n':
+                #acessa o diretorio do log de execução
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/DirectoryLog', 'r')
                 directory = archive.readline()
+                #acessa o log de execução
                 archive = open(directory,'r')
                 lines = archive.readlines()
+                #busca a ultima linha do log
                 last_line = lines[len(lines)-1]
                 if last_line.find('step ') > -1:
+                    #recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
                     archive.close()
                     return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)

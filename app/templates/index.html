@@ -13,7 +13,7 @@
                     
                     <input type="file" name="file" id="file">
                 </div>
-
+                
                 <label for="campoforca">Campo de Força</label>
                 <select class="form-control" name="campoforca" id="campoforca">
                     <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
@@ -77,8 +77,12 @@
                 <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
             </form>
         </div>
-
-    <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
+        
+        <div class="col d-flex flex-column justify-content-start align-items-center" >
+            <div style="height: 400px; width: 400px; position: relative;" class='viewer_3Dmoljs' data-href='https://files.rcsb.org/view/1gpk.pdb' data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'></div>
+        </div>
+  
+        <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
         <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
@@ -154,6 +158,7 @@
         var label = document.querySelector('.image-upload label');
         label.innerHTML += filename;
     });
+
     function validateProcessing() {
         var filename = document.querySelector('#file').value;
         var distance = document.querySelector('#distanciacaixa').value;

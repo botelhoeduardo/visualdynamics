@@ -78,10 +78,6 @@
             </form>
         </div>
         
-        <div class="col d-flex flex-column justify-content-start align-items-center" >
-            <div style="height: 400px; width: 400px; position: relative;" class='viewer_3Dmoljs' data-href='https://files.rcsb.org/view/1gpk.pdb' data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'></div>
-        </div>
-  
         <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
@@ -139,6 +135,32 @@
         
       
     </div>
+    {% if not steplist %}
+        <div id = "icn3dwrap"></div>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                var options = {};
+                options['color'] = 'Spectrum';
+                var cfg = {
+                    divid: 'icn3dwrap',
+                    width: '34%',
+                    height: '60%',
+                    resize: true,
+                    rotate: 'right',
+                    mobilemenu: true,
+                    showcommand: false,
+                    showtitle: false
+                };
+
+                cfg['pdbid'] = '';
+                if(Object.keys(options).length > 0) cfg['options'] = options;
+    
+                var icn3dui = new iCn3DUI(cfg);
+                $.when(icn3dui.show3DStructure()).then(function() {});
+            });
+        </script>
+    {% endif %}
+
 </div>
 
     <div class="row">
@@ -158,6 +180,7 @@
         var label = document.querySelector('.image-upload label');
         label.innerHTML += filename;
     });
+    
 
     function validateProcessing() {
         var filename = document.querySelector('#file').value;

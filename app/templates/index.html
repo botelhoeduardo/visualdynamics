@@ -142,9 +142,12 @@
         data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'>
         </div> 
     -->
-    <div id="icn3dwrap"></div>
-
+    <div class="container1">
+        <label for=""> --- Selecione o PDB para visualizar ---</label>
+        <div id="icn3dwrap"class="row"></div>
+    </div>
     <script type="text/javascript">
+        
         $( document ).ready(function() {
               var options = {};
               options['color'] = 'spectrum'
@@ -167,9 +170,9 @@
               //communicate with the 3D viewer with chained functions
               icn3dui.show3DStructure()
         });
-      </script>
-
-
+    
+    </script>
+    
     {% endif %}
 
 </div>

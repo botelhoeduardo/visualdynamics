@@ -22,7 +22,7 @@
         <th scope="row">{{u.id}}</th>
         <td>{{u.username}}</td>
         <td>{{u.email}}</td>
-        <td><a href="/admin/edit/{{u.id}}">Editar</a></td>        
+        <td><a href="/admin/edit/{{u.id}}" class="border border-success rounded text-success">Editar</a></td>        
         <td>
         {% if u.username != 'admin' %}  
           <a href="/admin/remove/{{u.id}}" class="border border-danger rounded text-danger">X</a>

@@ -106,7 +106,7 @@
             <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
             {% if '#productionmd' in steplist %}
                 <br>
-                <label id="datefinish"> {{ date_finish }} </label>
+                <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
                 {% endif %}
             {% endif %}
             <!-- {% for step in exc %}
@@ -143,8 +143,8 @@
         </div> 
     -->
     <div class="container1">
-        <label for=""> --- Selecione o PDB para visualizar ---</label>
-        <div id="icn3dwrap"class="row"></div>
+        <label class="border border-primary rounded text-primary"> Selecione o PDB para visualizar: File > Open File</label>
+        <div id="icn3dwrap"></div>
     </div>
     <script type="text/javascript">
         
@@ -180,7 +180,7 @@
     <div class="row">
         <form action="/imgfiles" method="GET" class="col">
             <input type="submit" class="mt-2 btn btn-success" value="Baixar Gráficos de Análise" name="graphics">
-            <label for="graphics" class="mt-auto ml-2 text-secondary">
+            <label for="graphics" class="mt-auto ml-2 text-secondary" >
                 (Nesta versão, apenas as imagens da ultima dinâmica do usuário serão armazenadas)
             </label>
         </form>

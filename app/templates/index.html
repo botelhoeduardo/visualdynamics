@@ -137,11 +137,12 @@
     </div>
 
     {% if not steplist %}
-       <!--<div style="height: 350px; width: 350px; position: relative;" 
-        class='viewer_3Dmoljs' data-pdb ='5IRE'
+    <!--<div style="height: 350px; width: 350px; position: relative;" 
+        class='viewer_3Dmoljs' data-pdb ='1YCR'
         data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'>
         </div> 
     -->
+
     <div class="container1">
         <label class="border border-primary rounded text-primary"> Selecione o PDB para visualizar: File > Open File</label>
         <div id="icn3dwrap"></div>
@@ -150,7 +151,7 @@
         
         $( document ).ready(function() {
               var options = {};
-              options['color'] = 'spectrum'
+              options['color'] = 'spectrum';
               
               var cfg = {
                   divid: 'icn3dwrap',
@@ -166,13 +167,11 @@
               if(Object.keys(options).length > 0) cfg['options'] = options;
     
               var icn3dui = new iCn3DUI(cfg);
-    
-              //communicate with the 3D viewer with chained functions
               icn3dui.show3DStructure()
         });
     
     </script>
-    
+
     {% endif %}
 
 </div>

@@ -91,10 +91,13 @@ def index():
             
             archive.close()
             return render_template('index.html', actindex = 'active', steplist=steplist) 
-             
-
+    '''
+    directory = Config.UPLOAD_FOLDER+current_user.username+'/'+'BATROXRHAGIN'+'/run/BATROXRHAGIN.pdb'
+    f = open (directory, 'r')
+    pdb = f.read()
+    return render_template('index.html', actindex = 'active', pdb=pdb)
+    '''
     return render_template('index.html', actindex = 'active')
-
 
 @app.route('/executar/<comp>/<mol>/<filename>')
 @login_required

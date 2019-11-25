@@ -141,7 +141,7 @@
         
         <div style='height: 380px; width: 360px; position: relative;' id='3Dmoljs'
         class='viewer_3Dmoljs' data-element ='pdb-element_src'
-        data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'>
+        data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'></div>
 
         <script>
             window.onload = function () {
@@ -159,30 +159,14 @@
                     fileReader.readAsText(fileTobeRead);
                 }, false);
             }
-            /*
-            $(document).ready(function() {
-		            moldata = data = $("#pdb-element_src").val();
-		            glviewer = $3Dmol.createViewer("3Dmoljs", {
-			            defaultcolors : $3Dmol.rasmolElementColors
-		            });
-		            glviewer.setBackgroundColor(0x0000);
-		            receptorModel = m = glviewer.addModel(data, "pdb");
-		            atoms = m.selectedAtoms({});
-		            for ( var i in atoms) {
-			            var atom = atoms[i];
-			            atom.clickable = true;
-			            atom.callback = atomcallback;
-		            }
-		            glviewer.mapAtomProperties($3Dmol.applyPartialCharges);
-		            glviewer.zoomTo();
-		            glviewer.render();
-                });
-                */
+
         </script>
 
     {% endif %}
 
 </div>
+</div>
+
 
     <div class="row">
         <form action="/imgfiles" method="GET" class="col">

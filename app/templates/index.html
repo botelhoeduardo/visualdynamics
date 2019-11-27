@@ -137,13 +137,42 @@
     </div>
 
     {% if not steps %}
-        <textarea style='display: none;' id='pdb-element_src'></textarea>
-
+        
+        <div id = "icn3dwrap"> </div>
+    
+        <!--<textarea style='display: none;' id='pdb-element_src'></textarea>    
         <div style='height: 380px; width: 360px; position: relative;' id='3Dmoljs'
         class='viewer_3Dmoljs' data-element ='pdb-element_src'
         data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'></div>
+        -->
         
-        
+        <script>
+         
+            $( document ).ready(function() {
+                var options = {};
+                options['color'] = 'spectrum'
+
+                var cfg = {
+                    divid: 'icn3dwrap',
+                    width: '360px',
+                    height: '380px',
+                    resize: true,
+                    rotate: 'right',
+                    mobilemenu: true,
+                    showcommand: false,
+                    showtitle: false
+                };
+               
+                cfg['pdbid'] = '';
+                cfg['options'] = options;
+                var icn3dui = new iCn3DUI(cfg);
+
+                $.when(icn3dui.show3DStructure()).then(function() {});
+            });
+
+        </script>
+
+        <!--
         <script>
             window.onload = function () {
                 var fileSelected = document.getElementById('file');
@@ -162,6 +191,8 @@
             }
 
         </script>
+        -->
+
     {% endif %}
     
 </div>

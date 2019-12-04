@@ -111,6 +111,7 @@ def executar(comp,mol,filename):
 def ligante():
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')   
+    flash('Esta funcionalidade ainda está em desenvolvimento','success') 
     return render_template('ligante.html', actlig = 'active')
 
 @app.route('/imgfiles')

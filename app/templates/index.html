@@ -103,9 +103,9 @@
             <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">Restrição NPT</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
             <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
-            {% if '#productionmd' in steplist %}
-                <br>
-                <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
+                {% if '#productionmd' in steplist %}
+                    <br>
+                    <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
                 {% endif %}
             {% endif %}
 
@@ -134,16 +134,14 @@
         {% endwith %}
         
       
-    </div>
+        </div>
 
-    {% if not steps %}
+    {% if not steplist %}
         
         <div id = "icn3dwrap"> </div>
     
         <!--<textarea style='display: none;' id='pdb-element_src'></textarea>    
-        <div style='height: 380px; width: 360px; position: relative;' id='3Dmoljs'
-        class='viewer_3Dmoljs' data-element ='pdb-element_src'
-        data-backgroundcolor='0xffffff' data-style='cartoon:color=spectrum'></div>-->
+        <div id='3Dmoljs'></div>-->
         
         <script>
          
@@ -166,7 +164,7 @@
                 cfg['options'] = options;
                 var icn3dui = new iCn3DUI(cfg);
 
-                $.when(icn3dui.show3DStructure()).then(function() {});
+                icn3dui.show3DStructure();
             });
 
         </script>
@@ -186,6 +184,10 @@
                     }
 
                     fileReader.readAsText(fileTobeRead);
+
+                    div = document.getElementById('3Dmoljs');
+                    var atualizardiv = '<div style="height: 380px; width: 360px; position: relative;" id="3Dmoljs" class="viewer_3Dmoljs" data-element= "pdb-element_src" data-backgroundcolor="0xffffff" data-style="cartoon:color=spectrum"></div>';  
+                    div.innerHTML = atualizardiv;
                 }, false);
             }
 
@@ -198,9 +200,11 @@
     <div class="row">
         <form action="/imgfiles" method="GET" class="col">
             <input type="submit" class="mt-2 btn btn-success" value="Baixar Gráficos de Análise" name="graphics">
+            <div>
             <label for="graphics" class="mt-auto ml-2 text-secondary" >
                 (Nesta versão, apenas as imagens da ultima dinâmica do usuário serão armazenadas)
             </label>
+        </div>
         </form>
     </div>
 
